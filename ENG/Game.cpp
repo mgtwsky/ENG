@@ -19,11 +19,11 @@ Game::Game() :
     m_outputWidth(800),
     m_outputHeight(600),
     m_outputRotation(DXGI_MODE_ROTATION_IDENTITY),
-    m_featureLevel(D3D_FEATURE_LEVEL_9_1),
-	m_pitch(0),
-	m_yaw(0)
+    m_featureLevel(D3D_FEATURE_LEVEL_9_1)
 {
-	m_cameraPos = START_POSITION.v;
+	m_camera.camera_pos = START_POSITION.v;
+	m_camera.pitch		= 0;
+	m_camera.yaw		= 0;
 }
 
 // Initialize the Direct3D resources required to run.
@@ -73,22 +73,22 @@ void Game::Update(DX::StepTimer const& timer)
 	{
 		Vector3 delta = Vector3(float(mouse.x), float(mouse.y), 0.f)
 			* ROTATION_GAIN;
-		m_pitch -= delta.y;
-		m_yaw -= delta.x;
+		m_camera.pitch -= delta.y;
+		m_camera.yaw -= delta.x;
 		// limit pitch to straight up or straight down
 		// with a little fudge-factor to avoid gimbal lock
 		float limit = XM_PI / 2.0f - 0.01f;
-		m_pitch = std::max(-limit, m_pitch);
-		m_pitch = std::min(+limit, m_pitch);
+		m_camera.pitch = std::max(-limit, m_camera.pitch);
+		m_camera.pitch = std::min(+limit, m_camera.pitch);
 		// keep longitude in sane range by wrapping
-		if (m_yaw > XM_PI)			{ m_yaw -= XM_PI * 2.0f; }
-		else if (m_yaw < -XM_PI)	{ m_yaw += XM_PI * 2.0f; }
+		if (m_camera.yaw > XM_PI)			{ m_camera.yaw -= XM_PI * 2.0f; }
+		else if (m_camera.yaw < -XM_PI)	{ m_camera.yaw += XM_PI * 2.0f; }
 	}
 	m_mouse->SetMode(mouse.leftButton ? Mouse::MODE_RELATIVE : Mouse::MODE_ABSOLUTE);
 	if (kb.Home)
 	{
-		m_cameraPos = START_POSITION.v;
-		m_pitch = m_yaw = 0;
+		m_camera.camera_pos = START_POSITION.v;
+		m_camera.pitch = m_camera.yaw = 0;
 	}
 	Vector3 move = Vector3::Zero;
 	if (kb.Up			|| kb.W)		move.y += 1.f;
@@ -97,10 +97,10 @@ void Game::Update(DX::StepTimer const& timer)
 	if (kb.Right		|| kb.D)		move.x -= 1.f;
 	if (kb.PageUp		|| kb.Space)	move.z += 1.f;
 	if (kb.PageDown		|| kb.X)		move.z -= 1.f;
-	Quaternion q = Quaternion::CreateFromYawPitchRoll(m_yaw, m_pitch, 0.f);
+	Quaternion q = Quaternion::CreateFromYawPitchRoll(m_camera.yaw, m_camera.pitch, 0.f);
 	move = Vector3::Transform(move, q);
 	move *= MOVEMENT_GAIN;
-	m_cameraPos += move;
+	m_camera.camera_pos += move;
 }
 
 // Draws the scene.
@@ -115,17 +115,17 @@ void Game::Render()
     Clear();
 
     // TODO: Add your rendering code here.
-	float y = sinf(m_pitch);
-	float r = cosf(m_pitch);
-	float z = r*cosf(m_yaw);
-	float x = r*sinf(m_yaw);
+	float y = sinf(m_camera.pitch);
+	float r = cosf(m_camera.pitch);
+	float z = r*cosf(m_camera.yaw);
+	float x = r*sinf(m_camera.yaw);
 
-	XMVECTOR lookAt = m_cameraPos + Vector3(x, y, z);
+	XMVECTOR lookAt = m_camera.camera_pos + Vector3(x, y, z);
 
-	XMMATRIX view = XMMatrixLookAtRH(m_cameraPos, lookAt, Vector3::Up);
+	XMMATRIX view = XMMatrixLookAtRH(m_camera.camera_pos, lookAt, Vector3::Up);
 
 	for (auto& wall : m_gamestate.walls) {
-		wall.Render(view, m_proj);
+		wall.Render(view, m_camera.proj);
 	}
 
     Present();
@@ -450,7 +450,7 @@ void Game::CreateResources()
     DX::ThrowIfFailed(m_d3dDevice->CreateDepthStencilView(depthStencil.Get(), &depthStencilViewDesc, m_depthStencilView.ReleaseAndGetAddressOf()));
 
     // TODO: Initialize windows-size dependent objects here.
-	m_proj = Matrix::CreatePerspectiveFieldOfView(XMConvertToRadians(65.f),
+	m_camera.proj = Matrix::CreatePerspectiveFieldOfView(XMConvertToRadians(65.f),
 		float(backBufferWidth) / float(backBufferHeight), 0.01f, 100.f);
 }
 
