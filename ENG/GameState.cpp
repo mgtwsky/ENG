@@ -2,7 +2,7 @@
 #include "GameState.h"
 
 
-GameState::GameState()
+GameState::GameState() : player{}
 {
 	walls		= std::vector<Wall>();
 	bullets		= std::vector<Bullet>();

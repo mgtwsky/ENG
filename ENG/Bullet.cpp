@@ -16,7 +16,7 @@ void Bullet::Update(float & const elapsed)
 	// todo implement behavior.
 }
 
-void Bullet::Render(Matrix & const view, Matrix & const proj, GeometricPrimitive * shape)
+void Bullet::Render(CXMMATRIX view, CXMMATRIX proj, GeometricPrimitive * shape)
 {
 	shape->Draw(matrix, view, proj);
 }

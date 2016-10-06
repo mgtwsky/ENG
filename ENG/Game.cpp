@@ -21,9 +21,10 @@ Game::Game() :
     m_outputRotation(DXGI_MODE_ROTATION_IDENTITY),
     m_featureLevel(D3D_FEATURE_LEVEL_9_1)
 {
-	m_camera.camera_pos = START_POSITION.v;
-	m_camera.pitch		= 0;
-	m_camera.yaw		= 0;
+	m_gamestate.player.position = START_POSITION.v;
+	m_camera.camera_pos			= m_gamestate.player.position;
+	m_camera.pitch				= 0;
+	m_camera.yaw				= 0;
 }
 
 // Initialize the Direct3D resources required to run.
@@ -101,6 +102,9 @@ void Game::Update(DX::StepTimer const& timer)
 	move = Vector3::Transform(move, q);
 	move *= MOVEMENT_GAIN;
 	m_camera.camera_pos += move;
+	Bullet bullet{};
+	bullet.SetPosition(m_gamestate.player.position + m_gamestate.player.look_direction);
+	m_gamestate.bullets.emplace_back(bullet);
 }
 
 // Draws the scene.
@@ -119,13 +123,16 @@ void Game::Render()
 	float r = cosf(m_camera.pitch);
 	float z = r*cosf(m_camera.yaw);
 	float x = r*sinf(m_camera.yaw);
-
-	XMVECTOR lookAt = m_camera.camera_pos + Vector3(x, y, z);
+	m_gamestate.player.look_direction = Vector3(x, y, z);
+	XMVECTOR lookAt = m_camera.camera_pos + m_gamestate.player.look_direction;
 
 	XMMATRIX view = XMMatrixLookAtRH(m_camera.camera_pos, lookAt, Vector3::Up);
 
 	for (auto& wall : m_gamestate.walls) {
 		wall.Render(view, m_camera.proj);
+	}
+	for (auto& bullet : m_gamestate.bullets) {
+		bullet.Render(view, m_camera.proj, m_bullet_shape.get());
 	}
 
     Present();
@@ -351,7 +358,7 @@ void Game::CreateDevice()
 
     // TODO: Initialize device dependent objects here (independent of window size).
 	Wall::CreateWalls(m_d3dContext.Get(), m_gamestate.walls);
-	m_bullet_shape = GeometricPrimitive::CreateSphere(m_d3dContext.Get(), 1.f);
+	m_bullet_shape = GeometricPrimitive::CreateSphere(m_d3dContext.Get(), 0.2f);
 }
 
 // Allocate all memory resources that change on a window SizeChanged event.

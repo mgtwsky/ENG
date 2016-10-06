@@ -7,6 +7,6 @@ public:
 	Bullet();
 	~Bullet();
 	void Update(float& const elapsed);
-	void Render(Matrix& const view, Matrix& const proj, GeometricPrimitive* shape);
+	void Render(CXMMATRIX view, CXMMATRIX proj, GeometricPrimitive* shape);
 };
 
