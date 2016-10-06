@@ -1,5 +1,6 @@
 #pragma once
 #include "Entity.h"
+#include "Counter.h"
 
 class Bullet : public Entity
 {
@@ -8,6 +9,6 @@ public:
 	~Bullet();
 	void Update(float& const elapsed);
 	void Render(CXMMATRIX view, CXMMATRIX proj, GeometricPrimitive* shape);
-	bool						destroyed;
+	Counter						alive;
 };
 

@@ -19,3 +19,13 @@ void GameState::CreateBullet(Vector3 & const position)
 	bullet.SetPosition(position);
 	bullets.emplace_back(bullet);
 }
+
+void GameState::DestroyDeadBullets()
+{
+	bullets.erase(
+		remove_if(
+			bullets.begin(), 
+			bullets.end(), 
+			[](const Bullet& o) {return o.alive.Passed(); }), 
+		bullets.end());
+}

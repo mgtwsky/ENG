@@ -3,7 +3,7 @@ class Counter
 {
 public:
 	Counter();
-	Counter(int time_interval);
+	Counter(float time_interval);
 	~Counter();
 	void ChangeInterval(float interval);
 	void Update(float elapsed);

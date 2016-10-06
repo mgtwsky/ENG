@@ -106,6 +106,12 @@ void Game::Update(DX::StepTimer const& timer)
 	Bullet bullet{};
 	bullet.SetPosition(m_gamestate.player.position + m_gamestate.player.look_direction);
 	m_gamestate.bullets.emplace_back(bullet);
+#pragma region Updating Bullets
+	for (auto& bullet : m_gamestate.bullets) {
+		bullet.Update(elapsedTime);
+	}
+	m_gamestate.DestroyDeadBullets();
+#pragma endregion Logic of bullets
 }
 
 // Draws the scene.

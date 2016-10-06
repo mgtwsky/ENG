@@ -2,7 +2,7 @@
 #include "Bullet.h"
 
 
-Bullet::Bullet() : destroyed{false}
+Bullet::Bullet() : alive{1.f}
 {
 }
 
@@ -13,7 +13,7 @@ Bullet::~Bullet()
 
 void Bullet::Update(float & const elapsed)
 {
-	// todo implement behavior.
+	alive.Update(elapsed);
 }
 
 void Bullet::Render(CXMMATRIX view, CXMMATRIX proj, GeometricPrimitive * shape)

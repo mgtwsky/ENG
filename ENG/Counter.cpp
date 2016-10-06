@@ -6,7 +6,7 @@ Counter::Counter() : time_elapsed{}, time_interval{}
 {
 }
 
-Counter::Counter(int time_interval) : time_elapsed{}, time_interval{time_interval}
+Counter::Counter(float time_interval) : time_elapsed{}, time_interval{time_interval}
 {
 }
 
