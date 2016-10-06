@@ -16,6 +16,7 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Counter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -27,6 +28,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Counter.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Logo.scale-200.png">

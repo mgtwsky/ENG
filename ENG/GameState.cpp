@@ -12,3 +12,10 @@ GameState::GameState() : player{}
 GameState::~GameState()
 {
 }
+
+void GameState::CreateBullet(Vector3 & const position)
+{
+	Bullet bullet{};
+	bullet.SetPosition(position);
+	bullets.emplace_back(bullet);
+}

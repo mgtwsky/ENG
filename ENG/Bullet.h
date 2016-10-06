@@ -8,5 +8,6 @@ public:
 	~Bullet();
 	void Update(float& const elapsed);
 	void Render(CXMMATRIX view, CXMMATRIX proj, GeometricPrimitive* shape);
+	bool						destroyed;
 };
 

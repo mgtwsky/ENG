@@ -100,9 +100,9 @@ void Game::Update(DX::StepTimer const& timer)
 	if (kb.PageDown		|| kb.X)		move.z -= 1.f;
 	Quaternion q = Quaternion::CreateFromYawPitchRoll(m_camera.yaw, m_camera.pitch, 0.f);
 	move = Vector3::Transform(move, q);
-	move *= MOVEMENT_GAIN;
-	m_gamestate.player.position += move;
-	m_camera.camera_pos = m_gamestate.player.position;
+	move *= MOVEMENT_GAIN;												// Create move direction vector.
+	m_gamestate.player.position += move;								// Move player.
+	m_camera.camera_pos = m_gamestate.player.position;					// Do not forget to move camera with the player (KEK).
 	Bullet bullet{};
 	bullet.SetPosition(m_gamestate.player.position + m_gamestate.player.look_direction);
 	m_gamestate.bullets.emplace_back(bullet);
