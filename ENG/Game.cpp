@@ -88,7 +88,7 @@ void Game::Update(DX::StepTimer const& timer)
 	m_mouse->SetMode(mouse.leftButton ? Mouse::MODE_RELATIVE : Mouse::MODE_ABSOLUTE);
 	if (kb.Home)
 	{
-		m_camera.camera_pos = START_POSITION.v;
+		m_gamestate.player.position = START_POSITION.v;
 		m_camera.pitch = m_camera.yaw = 0;
 	}
 	Vector3 move = Vector3::Zero;
@@ -101,7 +101,8 @@ void Game::Update(DX::StepTimer const& timer)
 	Quaternion q = Quaternion::CreateFromYawPitchRoll(m_camera.yaw, m_camera.pitch, 0.f);
 	move = Vector3::Transform(move, q);
 	move *= MOVEMENT_GAIN;
-	m_camera.camera_pos += move;
+	m_gamestate.player.position += move;
+	m_camera.camera_pos = m_gamestate.player.position;
 	Bullet bullet{};
 	bullet.SetPosition(m_gamestate.player.position + m_gamestate.player.look_direction);
 	m_gamestate.bullets.emplace_back(bullet);
