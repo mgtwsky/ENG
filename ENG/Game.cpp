@@ -85,6 +85,7 @@ void Game::Update(DX::StepTimer const& timer)
 		if (m_camera.yaw > XM_PI)			{ m_camera.yaw -= XM_PI * 2.0f; }
 		else if (m_camera.yaw < -XM_PI)	{ m_camera.yaw += XM_PI * 2.0f; }
 	}
+	m_gamestate.player.look_direction = m_camera.CreateLookDirectionVec();
 	m_mouse->SetMode(mouse.leftButton ? Mouse::MODE_RELATIVE : Mouse::MODE_ABSOLUTE);
 	if (kb.Home)
 	{
@@ -126,11 +127,6 @@ void Game::Render()
     Clear();
 
     // TODO: Add your rendering code here.
-	float y = sinf(m_camera.pitch);
-	float r = cosf(m_camera.pitch);
-	float z = r*cosf(m_camera.yaw);
-	float x = r*sinf(m_camera.yaw);
-	m_gamestate.player.look_direction = Vector3(x, y, z);
 	XMVECTOR lookAt = m_camera.camera_pos + m_gamestate.player.look_direction;
 
 	XMMATRIX view = XMMatrixLookAtRH(m_camera.camera_pos, lookAt, Vector3::Up);

@@ -1,12 +1,16 @@
 #pragma once
+
+using namespace DirectX::SimpleMath;
+
 class Camera
 {
 public:
 	Camera();
 	~Camera();
+	Vector3 CreateLookDirectionVec() const;
 	float												pitch;
 	float												yaw;
-	DirectX::SimpleMath::Matrix							proj;
-	DirectX::SimpleMath::Vector3						camera_pos;
+	Matrix												proj;
+	Vector3												camera_pos;
 };
 
