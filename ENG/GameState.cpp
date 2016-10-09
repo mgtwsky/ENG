@@ -5,7 +5,7 @@
 GameState::GameState() : player{}
 {
 	walls		= std::vector<Wall>();
-	bullets		= std::vector<Bullet>();
+	bullets		= std::vector<Bullet>(128);
 }
 
 
@@ -13,11 +13,19 @@ GameState::~GameState()
 {
 }
 
-void GameState::CreateBullet(Vector3 & const position)
+void GameState::CreateBullet(Vector3 & const position, Vector3 & const direction)
 {
 	Bullet bullet{};
 	bullet.SetPosition(position);
+	bullet.direction = direction;
 	bullets.emplace_back(bullet);
+}
+
+void GameState::UpdateBullets(float elapsed)
+{
+	for (auto& bullet : bullets) {
+		bullet.Update(elapsed);
+	}
 }
 
 void GameState::DestroyDeadBullets()

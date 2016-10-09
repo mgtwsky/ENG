@@ -9,7 +9,8 @@ class GameState
 public:
 	GameState();
 	~GameState();
-	void CreateBullet(Vector3& const position);
+	void CreateBullet(Vector3& const position, Vector3& const direction = Vector3{});
+	void UpdateBullets(float elapsed);
 	void DestroyDeadBullets();
 	Player						player;
 	std::vector<Wall>			walls;

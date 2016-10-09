@@ -10,5 +10,6 @@ public:
 	void Update(float& const elapsed);
 	void Render(CXMMATRIX view, CXMMATRIX proj, GeometricPrimitive* shape);
 	Counter						alive;
+	Vector3						direction;
 };
 

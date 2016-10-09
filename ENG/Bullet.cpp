@@ -2,7 +2,7 @@
 #include "Bullet.h"
 
 
-Bullet::Bullet() : alive{1.f}
+Bullet::Bullet() : alive{1.f}, direction{}
 {
 }
 
