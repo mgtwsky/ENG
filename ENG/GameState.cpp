@@ -47,9 +47,9 @@ void GameState::UpdateBulletsNormal(const float & elapsed)
 {
 	for (auto& bullet : bullets) {
 		Vector3 move = bullet.direction;
-		move *= constants.bullet_normal_speed;
-		move += constants.gravity_vec;
-		move *= elapsed;
+		move *= constants.bullet_normal_speed;					// Make directional vector a proper length.
+		move *= elapsed;										// Multiply by time delta ofc.
+		bullet.direction += constants.gravity_vec * elapsed;	// Apply gravity.
 		bullet.SetPosition(bullet.GetPosition() + move);
 		bullet.Update(elapsed);
 	}
