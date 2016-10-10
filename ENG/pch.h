@@ -9,7 +9,7 @@
 #define NOMINMAX
 
 #include <wrl.h>
-
+#include <assert.h>
 #include <d3d11_3.h>
 #include <dxgi1_4.h>
 #include <DirectXMath.h>
@@ -40,6 +40,13 @@
 #ifdef _DEBUG
 #include <dxgidebug.h>
 #endif
+
+// If result resolves to FALSE, assert with provided message.
+inline void ErrorCheck(bool result, const char* msg)
+{
+	if (!result)
+		assert(0 && msg);
+}
 
 namespace DX
 {

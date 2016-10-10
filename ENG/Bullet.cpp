@@ -11,7 +11,7 @@ Bullet::~Bullet()
 {
 }
 
-void Bullet::Update(float & const elapsed)
+void Bullet::Update(float const & elapsed)
 {
 	alive.Update(elapsed);
 }

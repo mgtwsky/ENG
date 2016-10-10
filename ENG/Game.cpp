@@ -104,7 +104,7 @@ void Game::Update(DX::StepTimer const& timer)
 	move *= MOVEMENT_GAIN;												// Create move direction vector.
 	m_gamestate.player.position += move;								// Move player.
 	m_camera.camera_pos = m_gamestate.player.position;					// Do not forget to move camera with the player (KEK).
-	m_gamestate.CreateBullet(m_gamestate.player.position + m_gamestate.player.look_direction);
+	m_gamestate.CreateBullet(m_gamestate.player.position + m_gamestate.player.look_direction, m_gamestate.player.look_direction);
 #pragma region Updating Bullets
 	m_gamestate.UpdateBullets(elapsedTime);
 	m_gamestate.DestroyDeadBullets();
