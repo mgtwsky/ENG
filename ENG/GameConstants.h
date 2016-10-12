@@ -2,6 +2,8 @@
 
 using namespace DirectX::SimpleMath;
 
+enum class BallisticsType { NORMAL, SIMPLE, ADVANCED, REALISTIC };
+
 struct GameConstants
 {
 	const float			bullet_normal_speed				= 100.f;

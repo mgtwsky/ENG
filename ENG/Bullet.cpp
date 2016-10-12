@@ -2,10 +2,9 @@
 #include "Bullet.h"
 
 
-Bullet::Bullet() : alive{1.f}, direction{}
+Bullet::Bullet() : alive{ 1.f }, direction{}, ballistics_type{ BallisticsType::NORMAL }
 {
 }
-
 
 Bullet::~Bullet()
 {
