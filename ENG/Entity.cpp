@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Entity.h"
 
-Entity::Entity()
+Entity::Entity() : is_alive{ true }
 {
 	color = Colors::White;
 }
@@ -21,4 +21,5 @@ void Entity::SetPosition(Vector3 & const position)
 	matrix.m[3][0] = position.x;
 	matrix.m[3][1] = position.y;
 	matrix.m[3][2] = position.z;
+	hitbox.position = position;
 }

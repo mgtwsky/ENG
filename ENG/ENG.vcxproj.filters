@@ -17,6 +17,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Counter.cpp" />
+    <ClCompile Include="Hitbox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -30,6 +31,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Counter.h" />
     <ClInclude Include="GameConstants.h" />
+    <ClInclude Include="Hitbox.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Logo.scale-200.png">

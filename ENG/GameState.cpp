@@ -30,16 +30,17 @@ void GameState::UpdateBullets(float const & elapsed)
 			UpdateBulletNormal(bullet, elapsed);
 			break;
 		case BallisticsType::SIMPLE:
-			// TODO invoke simple ballistics update.
+			UpdateBulletSimple(bullet, elapsed);
 			break;
 		case BallisticsType::ADVANCED:
-			// TODO invoke advanced ballistics update.
+			UpdateBulletAdvanced(bullet, elapsed);
 			break;
 		case BallisticsType::REALISTIC:
-			// TODO invoke realistic ballistics update.
+			UpdateBulletRealistic(bullet, elapsed);
 			break;
 		}
 	}
+	CheckBulletCollisions();
 }
 
 void GameState::DestroyDeadBullets()
@@ -48,7 +49,7 @@ void GameState::DestroyDeadBullets()
 		remove_if(
 			bullets.begin(), 
 			bullets.end(), 
-			[](const Bullet& o) {return o.alive.Passed(); }), 
+			[](const Bullet& o) {return o.alive.Passed() || !o.is_alive; }), 
 		bullets.end());
 }
 
@@ -60,4 +61,29 @@ void GameState::UpdateBulletNormal(Bullet& bullet, const float & elapsed)
 	bullet.direction += constants.gravity_vec * elapsed;	// Apply gravity.
 	bullet.SetPosition(bullet.GetPosition() + move);
 	bullet.Update(elapsed);
+}
+
+void GameState::UpdateBulletSimple(Bullet & bullet, const float & elapsed)
+{
+	//TODO implement simple.
+}
+
+void GameState::UpdateBulletAdvanced(Bullet & bullet, const float & elapsed)
+{
+	//TODO implement advanced.
+}
+
+void GameState::UpdateBulletRealistic(Bullet & bullet, const float & elapsed)
+{
+	//TODO implement realistic.
+}
+
+void GameState::CheckBulletCollisions()
+{
+	for (auto& bullet : bullets) {
+		for (auto& wall : walls) {
+			if (bullet.hitbox.Collides(wall.hitbox))
+				bullet.is_alive = false;
+		}
+	}
 }

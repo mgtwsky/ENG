@@ -32,7 +32,7 @@ void Counter::Reset()
 
 bool Counter::Passed() const
 {
-	if (time_elapsed > time_interval)
+	if (time_elapsed >= time_interval)
 		return true;
 	else
 		return false;

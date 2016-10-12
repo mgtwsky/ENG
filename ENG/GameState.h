@@ -19,5 +19,9 @@ public:
 	std::vector<Bullet>			bullets;
 private:
 	void UpdateBulletNormal(Bullet& bullet, const float & elapsed);
+	void UpdateBulletSimple(Bullet& bullet, const float & elapsed);
+	void UpdateBulletAdvanced(Bullet& bullet, const float & elapsed);
+	void UpdateBulletRealistic(Bullet& bullet, const float & elapsed);
+	void CheckBulletCollisions();
 };
 

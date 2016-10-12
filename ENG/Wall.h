@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Entity.h"
+#include "Hitbox.h"
 
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
