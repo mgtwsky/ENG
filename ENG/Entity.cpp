@@ -16,10 +16,10 @@ Vector3 Entity::GetPosition() const
 	return position;
 }
 // Sets the position of the entity.
-void Entity::SetPosition(Vector3 & const position)
+void Entity::SetPosition(Vector3 const & position)
 {
 	matrix.m[3][0] = position.x;
 	matrix.m[3][1] = position.y;
 	matrix.m[3][2] = position.z;
-	hitbox.position = position;
+	hitbox.SetPosition(position);
 }

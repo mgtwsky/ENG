@@ -10,7 +10,7 @@ public:
 	Entity();
 	~Entity();
 	Vector3 GetPosition() const;
-	void SetPosition(Vector3& const);
+	void SetPosition(Vector3 const &);
 	bool									is_alive;
 	XMVECTORF32								color;
 	Matrix									matrix;
