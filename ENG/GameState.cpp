@@ -4,7 +4,7 @@
 GameState::GameState() : player{}
 {
 	walls		= std::vector<Wall>();
-	bullets		= std::vector<Bullet>(128);
+	bullets		= std::vector<Bullet>();
 }
 
 
@@ -16,6 +16,8 @@ void GameState::CreateBullet(Vector3 & const position, Vector3 & const direction
 {
 	Bullet bullet{};
 	bullet.SetPosition(position);
+	bullet.hitbox.SetPosition(position);
+	bullet.hitbox.SetExtends(Vector3(0.2f));
 	bullet.direction = direction;
 	bullet.ballistics_type = type;
 	bullets.emplace_back(bullet);
@@ -60,6 +62,7 @@ void GameState::UpdateBulletNormal(Bullet& bullet, const float & elapsed)
 	move *= elapsed;										// Multiply by time delta ofc.
 	bullet.direction += constants.gravity_vec * elapsed;	// Apply gravity.
 	bullet.SetPosition(bullet.GetPosition() + move);
+	bullet.hitbox.SetPosition(bullet.GetPosition());
 	bullet.Update(elapsed);
 }
 
@@ -82,8 +85,9 @@ void GameState::CheckBulletCollisions()
 {
 	for (auto& bullet : bullets) {
 		for (auto& wall : walls) {
-			if (bullet.hitbox.Collides(wall.hitbox))
+			if (bullet.hitbox.Collides(wall.hitbox)) {
 				bullet.is_alive = false;
+			}
 		}
 	}
 }

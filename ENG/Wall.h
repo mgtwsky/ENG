@@ -16,5 +16,6 @@ public:
 	void Render(CXMMATRIX view, CXMMATRIX projection);
 	static void CreateWalls(ID3D11DeviceContext3* d3dcontext, std::vector<Wall>& walls);
 	Vector3												size;
+	std::shared_ptr<DirectX::GeometricPrimitive>		hitbox_shape;
 	std::shared_ptr<DirectX::GeometricPrimitive>		shape;
 };

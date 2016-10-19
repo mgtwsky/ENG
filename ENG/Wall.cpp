@@ -5,12 +5,14 @@ Wall::Wall(ID3D11DeviceContext3 * d3dcontext, Vector3 & const size, Vector3 & co
 {
 	SetPosition(position);
 	this->size = size;
+	hitbox.SetExtends(size);
 	shape = GeometricPrimitive::CreateBox(d3dcontext, this->size);
 }
 
 Wall::Wall(ID3D11DeviceContext3 * d3dcontext, Vector3 & const size)
 {
 	this->size = size;
+	hitbox.SetExtends(size);
 	shape = GeometricPrimitive::CreateBox(d3dcontext, this->size);
 }
 
@@ -25,7 +27,8 @@ Wall::~Wall()
 
 void Wall::Render(CXMMATRIX view, CXMMATRIX projection)
 {
-	shape->Draw(matrix, view, projection, color, nullptr);
+	const XMVECTORF32 shape_color{ 1.f,0.f,1.f,0.5f };
+	shape->Draw(matrix, view, projection, shape_color, nullptr);
 }
 
 void Wall::CreateWalls(ID3D11DeviceContext3* d3dcontext, std::vector<Wall>& walls)

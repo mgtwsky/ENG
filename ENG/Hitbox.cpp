@@ -15,9 +15,9 @@ Hitbox::~Hitbox()
 {
 }
 
-bool Hitbox::Collides(Hitbox const & hitbox)
+bool Hitbox::Collides(Hitbox const & hitbox) const
 {
-	return bound.Intersects(hitbox.bound) || bound.Contains(hitbox.bound);
+	return bound.Contains(hitbox.bound);
 }
 
 Vector3 Hitbox::GetPosition() const
@@ -28,4 +28,14 @@ Vector3 Hitbox::GetPosition() const
 void Hitbox::SetPosition(Vector3 const & position)
 {
 	bound.Center = position;
+}
+
+Vector3 Hitbox::GetExtends() const
+{
+	return Vector3(bound.Extents);
+}
+
+void Hitbox::SetExtends(Vector3 const & extends)
+{
+	bound.Extents = extends;
 }
