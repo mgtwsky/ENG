@@ -106,8 +106,8 @@ void Game::Update(DX::StepTimer const& timer)
 	m_camera.camera_pos = m_gamestate.player.position;					// Do not forget to move camera with the player (KEK).
 	m_gamestate.CreateBullet(m_gamestate.player.position + m_gamestate.player.look_direction, m_gamestate.player.look_direction);
 #pragma region Updating Bullets
-	m_gamestate.UpdateBullets(elapsedTime);
 	m_gamestate.DestroyDeadBullets();
+	m_gamestate.UpdateBullets(elapsedTime);
 #pragma endregion Logic of bullets
 }
 
@@ -357,6 +357,7 @@ void Game::CreateDevice()
 
     // TODO: Initialize device dependent objects here (independent of window size).
 	Wall::CreateWalls(m_d3dContext.Get(), m_gamestate.walls);
+	m_hitbox_shape = GeometricPrimitive::CreateBox(m_d3dContext.Get(), {.2f,.2f,.2f});
 	m_bullet_shape = GeometricPrimitive::CreateSphere(m_d3dContext.Get(), 0.2f);
 }
 

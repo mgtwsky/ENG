@@ -2,7 +2,7 @@
 #include "Bullet.h"
 
 
-Bullet::Bullet() : alive{ 1.f }, direction{}, ballistics_type{ BallisticsType::NORMAL }
+Bullet::Bullet() : alive{ 5.f }, direction{}, ballistics_type{ BallisticsType::NORMAL }
 {
 }
 

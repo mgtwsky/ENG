@@ -28,7 +28,7 @@ Wall::~Wall()
 void Wall::Render(CXMMATRIX view, CXMMATRIX projection)
 {
 	const XMVECTORF32 shape_color{ 1.f,0.f,1.f,0.5f };
-	shape->Draw(matrix, view, projection, shape_color, nullptr);
+	shape->Draw(matrix, view, projection, shape_color);
 }
 
 void Wall::CreateWalls(ID3D11DeviceContext3* d3dcontext, std::vector<Wall>& walls)

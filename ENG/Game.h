@@ -63,6 +63,7 @@ private:
 	std::unique_ptr<DirectX::Keyboard>					m_keyboard;
 	std::unique_ptr<DirectX::Mouse>						m_mouse;
 	GameState											m_gamestate;
+	std::unique_ptr<DirectX::GeometricPrimitive>		m_hitbox_shape;
 	std::unique_ptr<DirectX::GeometricPrimitive>		m_bullet_shape;
 	Camera												m_camera;
 

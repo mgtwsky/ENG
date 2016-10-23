@@ -22,6 +22,7 @@ private:
 	void UpdateBulletSimple(Bullet& bullet, const float & elapsed);
 	void UpdateBulletAdvanced(Bullet& bullet, const float & elapsed);
 	void UpdateBulletRealistic(Bullet& bullet, const float & elapsed);
-	void CheckBulletCollisions();
+	void CheckBulletsCollisions();
+	bool CheckWallCollision(Hitbox const & hitbox) const;
 };
 
