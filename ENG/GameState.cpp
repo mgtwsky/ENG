@@ -95,11 +95,33 @@ void GameState::UpdateBulletSimple(Bullet & bullet, const float & elapsed)
 void GameState::UpdateBulletAdvanced(Bullet & bullet, const float & elapsed)
 {
 	//TODO implement advanced.
+#pragma region Bullet movement.
+	const Vector3 before_move = bullet.GetPosition();
+	{
+		Vector3 move = bullet.direction;
+		move *= constants.bullet_normal_speed;					// Make directional vector a proper length.
+		move *= elapsed;										// Multiply by time delta ofc.
+		bullet.direction += constants.gravity_vec * elapsed;	// Apply gravity.
+		bullet.SetPosition(bullet.GetPosition() + move);		// Actually move.
+	}
+	const Vector3 after_move = bullet.GetPosition();
+#pragma endregion
 }
 
 void GameState::UpdateBulletRealistic(Bullet & bullet, const float & elapsed)
 {
 	//TODO implement realistic.
+#pragma region Bullet movement.
+	const Vector3 before_move = bullet.GetPosition();
+	{
+		Vector3 move = bullet.direction;
+		move *= constants.bullet_normal_speed;					// Make directional vector a proper length.
+		move *= elapsed;										// Multiply by time delta ofc.
+		bullet.direction += constants.gravity_vec * elapsed;	// Apply gravity.
+		bullet.SetPosition(bullet.GetPosition() + move);		// Actually move.
+	}
+	const Vector3 after_move = bullet.GetPosition();
+#pragma endregion
 }
 
 void GameState::CheckBulletsCollisions()
