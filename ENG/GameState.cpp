@@ -89,7 +89,7 @@ void GameState::UpdateBulletNormal(Bullet& bullet, float const & elapsed)
 
 void GameState::UpdateBulletSimple(Bullet & bullet, const float & elapsed)
 {
-	//TODO implement simple.
+	const Vector3 before_move = bullet.GetPosition();
 }
 
 void GameState::UpdateBulletAdvanced(Bullet & bullet, const float & elapsed)
