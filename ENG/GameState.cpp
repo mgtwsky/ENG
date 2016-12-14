@@ -50,7 +50,7 @@ void GameState::DestroyDeadBullets()
 		remove_if(
 			bullets.begin(), 
 			bullets.end(), 
-			[](const Bullet& o) {return o.alive.Passed() || !o.is_alive; }), 
+			[](const Bullet& o) { return o.alive.Passed() || !o.is_alive; }), 
 		bullets.end());
 }
 
