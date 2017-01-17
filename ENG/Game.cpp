@@ -131,7 +131,7 @@ void Game::Render()
 		wall.Render(view, m_camera.proj);
 	}
 	for (auto& bullet : m_gamestate.bullets) {
-		bullet.Render(view, m_camera.proj, m_bullet_shape.get());
+		bullet.Render(view, m_camera.proj, m_bullet_shape.get(), m_hitbox_shape.get());
 	}
 
     Present();
@@ -357,7 +357,7 @@ void Game::CreateDevice()
 
     // TODO: Initialize device dependent objects here (independent of window size).
 	Wall::CreateWalls(m_d3dContext.Get(), m_gamestate.walls);
-	m_hitbox_shape = GeometricPrimitive::CreateBox(m_d3dContext.Get(), {.2f,.2f,.2f});
+	m_hitbox_shape = GeometricPrimitive::CreateBox(m_d3dContext.Get(), { 0.175f,0.175f,0.175f });
 	m_bullet_shape = GeometricPrimitive::CreateSphere(m_d3dContext.Get(), 0.2f);
 }
 

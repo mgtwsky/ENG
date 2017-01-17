@@ -15,7 +15,14 @@ void Bullet::Update(float const & elapsed)
 	alive.Update(elapsed);
 }
 
-void Bullet::Render(CXMMATRIX view, CXMMATRIX proj, GeometricPrimitive * shape)
+void Bullet::Render(CXMMATRIX view, CXMMATRIX proj, GeometricPrimitive * shape, GeometricPrimitive * hitbox_shape)
 {
+	const XMVECTORF32 hitbox_color{ 1.f,0.f,0.f,0.25f };
 	shape->Draw(matrix, view, proj);
+	Matrix hitbox_pos = Matrix::Identity;
+	const Vector3 hitbox_pos_vec = hitbox.GetPosition();
+	hitbox_pos.m[3][0] = hitbox_pos_vec.x;
+	hitbox_pos.m[3][1] = hitbox_pos_vec.y;
+	hitbox_pos.m[3][2] = hitbox_pos_vec.z;
+	hitbox_shape->Draw(hitbox_pos, view, proj, hitbox_color);
 }

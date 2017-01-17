@@ -16,8 +16,7 @@ void GameState::CreateBullet(Vector3 & const position, Vector3 & const direction
 {
 	Bullet bullet{};
 	bullet.SetPosition(position);
-	bullet.hitbox.SetPosition(position);
-	bullet.hitbox.SetExtends(Vector3(0.2f));
+	bullet.hitbox.SetExtends(Vector3(0.175f));
 	bullet.direction = direction;
 	bullet.ballistics_type = type;
 	bullets.emplace_back(bullet);
