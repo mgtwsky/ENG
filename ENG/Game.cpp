@@ -99,12 +99,16 @@ void Game::Update(DX::StepTimer const& timer)
 	if (kb.Right		|| kb.D)		move.x -= 1.f;
 	if (kb.PageUp		|| kb.Space)	move.z += 1.f;
 	if (kb.PageDown		|| kb.X)		move.z -= 1.f;
+	if (kb.U)							m_gamestate.creation_bullet_type = BallisticsType::SIMPLE;
+	if (kb.I)							m_gamestate.creation_bullet_type = BallisticsType::NORMAL;
+	if (kb.O)							m_gamestate.creation_bullet_type = BallisticsType::ADVANCED;
+	if (kb.P)							m_gamestate.creation_bullet_type = BallisticsType::REALISTIC;
 	Quaternion q = Quaternion::CreateFromYawPitchRoll(m_camera.yaw, m_camera.pitch, 0.f);
 	move = Vector3::Transform(move, q);
 	move *= MOVEMENT_GAIN;												// Create move direction vector.
 	m_gamestate.player.position += move;								// Move player.
 	m_camera.camera_pos = m_gamestate.player.position;					// Do not forget to move camera with the player (KEK).
-	m_gamestate.CreateBullet(m_gamestate.player.position + m_gamestate.player.look_direction, m_gamestate.player.look_direction);
+	m_gamestate.CreateBullet(m_gamestate.player.position + m_gamestate.player.look_direction, m_gamestate.player.look_direction, m_gamestate.creation_bullet_type);
 #pragma region Updating Bullets
 	m_gamestate.DestroyDeadBullets();
 	m_gamestate.UpdateBullets(elapsedTime);
@@ -357,8 +361,8 @@ void Game::CreateDevice()
 
     // TODO: Initialize device dependent objects here (independent of window size).
 	Wall::CreateWalls(m_d3dContext.Get(), m_gamestate.walls);
-	m_hitbox_shape = GeometricPrimitive::CreateBox(m_d3dContext.Get(), { 0.175f,0.175f,0.175f });
-	m_bullet_shape = GeometricPrimitive::CreateSphere(m_d3dContext.Get(), 0.2f);
+	m_hitbox_shape = GeometricPrimitive::CreateBox(m_d3dContext.Get(), { 0.075f,0.075f,0.075f });
+	m_bullet_shape = GeometricPrimitive::CreateSphere(m_d3dContext.Get(), 0.1f);
 }
 
 // Allocate all memory resources that change on a window SizeChanged event.

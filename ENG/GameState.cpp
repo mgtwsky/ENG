@@ -5,6 +5,7 @@ GameState::GameState() : player{}
 {
 	walls		= std::vector<Wall>();
 	bullets		= std::vector<Bullet>();
+	creation_bullet_type = BallisticsType::NORMAL;
 }
 
 
@@ -16,7 +17,7 @@ void GameState::CreateBullet(Vector3 & const position, Vector3 & const direction
 {
 	Bullet bullet{};
 	bullet.SetPosition(position);
-	bullet.hitbox.SetExtends(Vector3(0.175f));
+	bullet.hitbox.SetExtends(Vector3(0.1f));
 	bullet.direction = direction;
 	bullet.ballistics_type = type;
 	bullets.emplace_back(bullet);
@@ -66,29 +67,19 @@ void GameState::UpdateBulletNormal(Bullet& bullet, float const & elapsed)
 	}
 	const Vector3 after_move = bullet.GetPosition();
 #pragma endregion
-#pragma region Collision gaps.
-	const float travel_length	= (after_move - before_move).Length();		// If bullet has travelled so far that it creates gaps of collisions.
-	const float hitbox_length	= bullet.hitbox.GetExtends().Length() * 2;
-	const int overtravel_times	= travel_length / hitbox_length;
-	if (overtravel_times > 0) {
-		const Vector3 move_cut{ (after_move - before_move) / (overtravel_times + 1) };
-		for (int i = 1; i <= overtravel_times; i++)
-		{
-			const Vector3 center{ before_move + (move_cut * i) };
-			const Hitbox hitbox{ center, bullet.hitbox.GetExtends() };
-			if (CheckWallCollision(hitbox)) bullet.is_alive = false;
-		}
-	}
-#pragma endregion
+	if(CheckBulletCollisionGaps(bullet, before_move, after_move)) bullet.is_alive = false;
 #pragma region Collision check.
 	if (CheckWallCollision(bullet.hitbox)) bullet.is_alive = false;
 #pragma endregion
 	bullet.Update(elapsed);
 }
 
+
 void GameState::UpdateBulletSimple(Bullet & bullet, const float & elapsed)
 {
 	const Vector3 before_move = bullet.GetPosition();
+
+	bullet.Update(elapsed);
 }
 
 void GameState::UpdateBulletAdvanced(Bullet & bullet, const float & elapsed)
@@ -105,6 +96,7 @@ void GameState::UpdateBulletAdvanced(Bullet & bullet, const float & elapsed)
 	}
 	const Vector3 after_move = bullet.GetPosition();
 #pragma endregion
+	bullet.Update(elapsed);
 }
 
 void GameState::UpdateBulletRealistic(Bullet & bullet, const float & elapsed)
@@ -121,6 +113,24 @@ void GameState::UpdateBulletRealistic(Bullet & bullet, const float & elapsed)
 	}
 	const Vector3 after_move = bullet.GetPosition();
 #pragma endregion
+	bullet.Update(elapsed);
+}
+
+bool GameState::CheckBulletCollisionGaps(const Bullet & bullet, const Vector3 & before_move, const Vector3 & after_move) const
+{
+	const float travel_length = (after_move - before_move).Length();		// If bullet has travelled so far that it creates gaps of collisions.
+	const float hitbox_length = bullet.hitbox.GetExtends().Length() * 2;
+	const int overtravel_times = (int)travel_length / hitbox_length;;
+	if (overtravel_times > 0) {
+		const Vector3 move_cut{ (after_move - before_move) / (overtravel_times + 1) };
+		for (int i = 1; i <= overtravel_times; i++)
+		{
+			const Vector3 center{ before_move + (move_cut * i) };
+			const Hitbox hitbox{ center, bullet.hitbox.GetExtends() };
+			if (CheckWallCollision(hitbox)) return true;
+		}
+	}
+	return false;
 }
 
 void GameState::CheckBulletsCollisions()

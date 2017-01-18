@@ -15,6 +15,7 @@ public:
 	void DestroyDeadBullets();
 	GameConstants				constants;
 	Player						player;
+	BallisticsType				creation_bullet_type;
 	std::vector<Wall>			walls;
 	std::vector<Bullet>			bullets;
 private:
@@ -22,6 +23,7 @@ private:
 	void UpdateBulletSimple(Bullet& bullet, const float & elapsed);
 	void UpdateBulletAdvanced(Bullet& bullet, const float & elapsed);
 	void UpdateBulletRealistic(Bullet& bullet, const float & elapsed);
+	bool CheckBulletCollisionGaps(const Bullet& bullet, const Vector3& before_move, const Vector3& after_move) const;
 	void CheckBulletsCollisions();
 	bool CheckWallCollision(Hitbox const & hitbox) const;
 };
