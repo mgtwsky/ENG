@@ -361,8 +361,8 @@ void Game::CreateDevice()
 
     // TODO: Initialize device dependent objects here (independent of window size).
 	Wall::CreateWalls(m_d3dContext.Get(), m_gamestate.walls);
-	m_hitbox_shape = GeometricPrimitive::CreateBox(m_d3dContext.Get(), { 0.075f,0.075f,0.075f });
-	m_bullet_shape = GeometricPrimitive::CreateSphere(m_d3dContext.Get(), 0.1f);
+	m_hitbox_shape = GeometricPrimitive::CreateBox(m_d3dContext.Get(), { 1.f, 1.f, 1.f });
+	m_bullet_shape = GeometricPrimitive::CreateSphere(m_d3dContext.Get(), 1.f);
 }
 
 // Allocate all memory resources that change on a window SizeChanged event.

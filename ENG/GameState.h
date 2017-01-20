@@ -13,6 +13,7 @@ public:
 	void CreateBullet(Vector3& const position, Vector3& const direction = Vector3{}, BallisticsType type = BallisticsType::NORMAL);
 	void UpdateBullets(float const & elapsed);
 	void DestroyDeadBullets();
+	void SetBulletsSize(float const & size);
 	GameConstants				constants;
 	Player						player;
 	BallisticsType				creation_bullet_type;
@@ -26,5 +27,7 @@ private:
 	bool CheckBulletCollisionGaps(const Bullet& bullet, const Vector3& before_move, const Vector3& after_move) const;
 	void CheckBulletsCollisions();
 	bool CheckWallCollision(Hitbox const & hitbox) const;
+	float						bullet_size;
+	float						bullet_hitbox_size;
 };
 

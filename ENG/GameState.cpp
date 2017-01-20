@@ -6,6 +6,7 @@ GameState::GameState() : player{}
 	walls		= std::vector<Wall>();
 	bullets		= std::vector<Bullet>();
 	creation_bullet_type = BallisticsType::NORMAL;
+	SetBulletsSize(0.5f);
 }
 
 
@@ -17,7 +18,8 @@ void GameState::CreateBullet(Vector3 & const position, Vector3 & const direction
 {
 	Bullet bullet{};
 	bullet.SetPosition(position);
-	bullet.hitbox.SetExtends(Vector3(0.1f));
+	bullet.SetBulletSize(bullet_size);
+	bullet.hitbox.SetExtends(Vector3(bullet_hitbox_size));
 	bullet.direction = direction;
 	bullet.ballistics_type = type;
 	bullets.emplace_back(bullet);
@@ -52,6 +54,12 @@ void GameState::DestroyDeadBullets()
 			bullets.end(), 
 			[](const Bullet& o) { return o.alive.Passed() || !o.is_alive; }), 
 		bullets.end());
+}
+
+void GameState::SetBulletsSize(float const & size)
+{
+	bullet_size = size;
+	bullet_hitbox_size = bullet_size * 0.75;
 }
 
 void GameState::UpdateBulletNormal(Bullet& bullet, float const & elapsed)
@@ -127,7 +135,8 @@ bool GameState::CheckBulletCollisionGaps(const Bullet & bullet, const Vector3 & 
 		{
 			const Vector3 center{ before_move + (move_cut * i) };
 			const Hitbox hitbox{ center, bullet.hitbox.GetExtends() };
-			if (CheckWallCollision(hitbox)) return true;
+			if (CheckWallCollision(hitbox)) 
+				return true;
 		}
 	}
 	return false;
