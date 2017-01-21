@@ -4,8 +4,7 @@
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-class Entity
-{
+class Entity {
 public:
 	Entity();
 	~Entity();

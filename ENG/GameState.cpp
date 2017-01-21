@@ -1,21 +1,17 @@
 #include "pch.h"
 #include "GameState.h"
 
-GameState::GameState() : player{}
-{
-	walls		= std::vector<Wall>();
-	bullets		= std::vector<Bullet>();
+GameState::GameState() : player{} {
+	walls = std::vector<Wall>();
+	bullets = std::vector<Bullet>();
 	creation_bullet_type = BallisticsType::NORMAL;
 	SetBulletsSize(0.5f);
 }
 
 
-GameState::~GameState()
-{
-}
+GameState::~GameState() {}
 
-void GameState::CreateBullet(Vector3 & const position, Vector3 & const direction, BallisticsType type)
-{
+void GameState::CreateBullet(Vector3 & const position, Vector3 & const direction, BallisticsType type) {
 	Bullet bullet{};
 	bullet.SetPosition(position);
 	bullet.SetBulletSize(bullet_size);
@@ -25,45 +21,40 @@ void GameState::CreateBullet(Vector3 & const position, Vector3 & const direction
 	bullets.emplace_back(bullet);
 }
 
-void GameState::UpdateBullets(float const & elapsed)
-{
+void GameState::UpdateBullets(float const & elapsed) {
 	for (auto& bullet : bullets) {
-		switch (bullet.ballistics_type)
-		{
-		case BallisticsType::NORMAL:
-			UpdateBulletNormal(bullet, elapsed);
-			break;
-		case BallisticsType::SIMPLE:
-			UpdateBulletSimple(bullet, elapsed);
-			break;
-		case BallisticsType::ADVANCED:
-			UpdateBulletAdvanced(bullet, elapsed);
-			break;
-		case BallisticsType::REALISTIC:
-			UpdateBulletRealistic(bullet, elapsed);
-			break;
+		switch (bullet.ballistics_type) {
+			case BallisticsType::NORMAL:
+				UpdateBulletNormal(bullet, elapsed);
+				break;
+			case BallisticsType::SIMPLE:
+				UpdateBulletSimple(bullet, elapsed);
+				break;
+			case BallisticsType::ADVANCED:
+				UpdateBulletAdvanced(bullet, elapsed);
+				break;
+			case BallisticsType::REALISTIC:
+				UpdateBulletRealistic(bullet, elapsed);
+				break;
 		}
 	}
 }
 
-void GameState::DestroyDeadBullets()
-{
+void GameState::DestroyDeadBullets() {
 	bullets.erase(
 		remove_if(
-			bullets.begin(), 
-			bullets.end(), 
-			[](const Bullet& o) { return o.alive.Passed() || !o.is_alive; }), 
+			bullets.begin(),
+			bullets.end(),
+			[](const Bullet& o) { return o.alive.Passed() || !o.is_alive; }),
 		bullets.end());
 }
 
-void GameState::SetBulletsSize(float const & size)
-{
+void GameState::SetBulletsSize(float const & size) {
 	bullet_size = size;
 	bullet_hitbox_size = bullet_size * 0.75;
 }
 
-void GameState::UpdateBulletNormal(Bullet& bullet, float const & elapsed)
-{
+void GameState::UpdateBulletNormal(Bullet& bullet, float const & elapsed) {
 #pragma region Bullet movement.
 	const Vector3 before_move = bullet.GetPosition();
 	{
@@ -75,7 +66,7 @@ void GameState::UpdateBulletNormal(Bullet& bullet, float const & elapsed)
 	}
 	const Vector3 after_move = bullet.GetPosition();
 #pragma endregion
-	if(CheckBulletCollisionGaps(bullet, before_move, after_move)) bullet.is_alive = false;
+	if (CheckBulletCollisionGaps(bullet, before_move, after_move)) bullet.is_alive = false;
 #pragma region Collision check.
 	if (CheckWallCollision(bullet.hitbox)) bullet.is_alive = false;
 #pragma endregion
@@ -83,15 +74,13 @@ void GameState::UpdateBulletNormal(Bullet& bullet, float const & elapsed)
 }
 
 
-void GameState::UpdateBulletSimple(Bullet & bullet, const float & elapsed)
-{
+void GameState::UpdateBulletSimple(Bullet & bullet, const float & elapsed) {
 	const Vector3 before_move = bullet.GetPosition();
 
 	bullet.Update(elapsed);
 }
 
-void GameState::UpdateBulletAdvanced(Bullet & bullet, const float & elapsed)
-{
+void GameState::UpdateBulletAdvanced(Bullet & bullet, const float & elapsed) {
 	//TODO implement advanced.
 #pragma region Bullet movement.
 	const Vector3 before_move = bullet.GetPosition();
@@ -107,8 +96,7 @@ void GameState::UpdateBulletAdvanced(Bullet & bullet, const float & elapsed)
 	bullet.Update(elapsed);
 }
 
-void GameState::UpdateBulletRealistic(Bullet & bullet, const float & elapsed)
-{
+void GameState::UpdateBulletRealistic(Bullet & bullet, const float & elapsed) {
 	//TODO implement realistic.
 #pragma region Bullet movement.
 	const Vector3 before_move = bullet.GetPosition();
@@ -124,26 +112,23 @@ void GameState::UpdateBulletRealistic(Bullet & bullet, const float & elapsed)
 	bullet.Update(elapsed);
 }
 
-bool GameState::CheckBulletCollisionGaps(const Bullet & bullet, const Vector3 & before_move, const Vector3 & after_move) const
-{
+bool GameState::CheckBulletCollisionGaps(const Bullet & bullet, const Vector3 & before_move, const Vector3 & after_move) const {
 	const float travel_length = (after_move - before_move).Length();		// If bullet has travelled so far that it creates gaps of collisions.
 	const float hitbox_length = bullet.hitbox.GetExtends().Length() * 2;
 	const int overtravel_times = (int)travel_length / hitbox_length;;
 	if (overtravel_times > 0) {
 		const Vector3 move_cut{ (after_move - before_move) / (overtravel_times + 1) };
-		for (int i = 1; i <= overtravel_times; i++)
-		{
+		for (int i = 1; i <= overtravel_times; i++) {
 			const Vector3 center{ before_move + (move_cut * i) };
 			const Hitbox hitbox{ center, bullet.hitbox.GetExtends() };
-			if (CheckWallCollision(hitbox)) 
+			if (CheckWallCollision(hitbox))
 				return true;
 		}
 	}
 	return false;
 }
 
-void GameState::CheckBulletsCollisions()
-{
+void GameState::CheckBulletsCollisions() {
 	for (auto& bullet : bullets) {
 		for (auto const & wall : walls) {
 			if (bullet.hitbox.Collides(wall.hitbox)) {
@@ -153,8 +138,7 @@ void GameState::CheckBulletsCollisions()
 	}
 }
 
-bool GameState::CheckWallCollision(Hitbox const & hitbox) const
-{
+bool GameState::CheckWallCollision(Hitbox const & hitbox) const {
 	for (auto const & wall : walls) {
 		if (hitbox.Collides(wall.hitbox))
 			return true;

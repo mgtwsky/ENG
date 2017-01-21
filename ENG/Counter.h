@@ -1,6 +1,5 @@
 #pragma once
-class Counter
-{
+class Counter {
 public:
 	Counter();
 	Counter(float time_interval);

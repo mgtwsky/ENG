@@ -2,8 +2,7 @@
 
 using namespace DirectX::SimpleMath;
 
-class Camera
-{
+class Camera {
 public:
 	Camera();
 	~Camera();

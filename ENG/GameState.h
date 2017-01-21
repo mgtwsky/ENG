@@ -5,8 +5,7 @@
 #include "Player.h"
 #include "GameConstants.h"
 
-class GameState
-{
+class GameState {
 public:
 	GameState();
 	~GameState();
