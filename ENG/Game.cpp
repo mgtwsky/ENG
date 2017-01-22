@@ -121,11 +121,15 @@ void Game::Render() {
 
 	XMMATRIX view = XMMatrixLookAtRH(m_camera.camera_pos, lookAt, Vector3::Up);
 
-	for (auto& wall : m_gamestate.walls) {
+	for (auto const & wall : m_gamestate.walls) {
 		wall.Render(view, m_camera.proj);
 	}
-	for (auto& bullet : m_gamestate.bullets) {
+	for (auto const & bullet : m_gamestate.bullets) {
 		bullet.Render(view, m_camera.proj, m_bullet_shape.get(), m_hitbox_shape.get());
+	}
+
+	for (auto const & wind : m_gamestate.winds) {
+		wind.Render(view, m_camera.proj, m_hitbox_shape.get());
 	}
 
 	Present();

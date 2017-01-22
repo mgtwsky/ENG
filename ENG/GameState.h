@@ -22,12 +22,14 @@ public:
 	std::vector<Wind>           winds;
 private:
 	void UpdateBulletNormal(Bullet& bullet, const float & elapsed);
+	void CheckWindAffection(Bullet & bullet, const float & elapsed);
 	void UpdateBulletSimple(Bullet& bullet, const float & elapsed);
 	void UpdateBulletAdvanced(Bullet& bullet, const float & elapsed);
 	void UpdateBulletRealistic(Bullet& bullet, const float & elapsed);
 	bool CheckBulletCollisionGaps(const Bullet& bullet, const Vector3& before_move, const Vector3& after_move) const;
 	void CheckBulletsCollisions();
 	bool CheckWallCollision(Hitbox const & hitbox) const;
+	void CreateWinds();
 	float						bullet_size;
 	float						bullet_hitbox_size;
 };

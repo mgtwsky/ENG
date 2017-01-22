@@ -23,11 +23,11 @@ Wall::Wall(ID3D11DeviceContext3* d3dcontext) {
 
 Wall::~Wall() {}
 
-void Wall::Render(CXMMATRIX view, CXMMATRIX projection) {
+void Wall::Render(CXMMATRIX view, CXMMATRIX projection) const {
 	const XMVECTORF32 shape_color{ 1.f,0.f,1.f,0.5f };
 	const XMVECTORF32 hitbox_color{ 0.f,0.f,1.f,0.2f };
-	Matrix hitbox_pos = Matrix::CreateScale(hitbox.GetExtends() * 2) * Matrix::CreateTranslation(hitbox.GetPosition());
-	Matrix wall_pos = Matrix::CreateScale(size) * Matrix::CreateTranslation(position);
+	const Matrix hitbox_pos = Matrix::CreateScale(hitbox.GetExtends() * 2) * Matrix::CreateTranslation(hitbox.GetPosition());
+	const Matrix wall_pos = Matrix::CreateScale(size) * Matrix::CreateTranslation(position);
 
 	shape->Draw(wall_pos, view, projection, shape_color);
 	hitbox_shape->Draw(hitbox_pos, view, projection, hitbox_color);

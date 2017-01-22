@@ -8,7 +8,7 @@ public:
 	Bullet();
 	~Bullet();
 	void Update(float const & elapsed);
-	void Render(CXMMATRIX view, CXMMATRIX proj, GeometricPrimitive* shape, GeometricPrimitive* hitbox_shape);
+	void Render(CXMMATRIX view, CXMMATRIX proj, GeometricPrimitive* shape, GeometricPrimitive* hitbox_shape) const;
 	void SetBulletSize(float const & size);
 	BallisticsType				ballistics_type;
 	Counter						alive;

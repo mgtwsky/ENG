@@ -5,6 +5,7 @@ GameState::GameState() : player{} {
 	walls = std::vector<Wall>();
 	bullets = std::vector<Bullet>();
 	winds = std::vector<Wind>();
+	CreateWinds();
 	creation_bullet_type = BallisticsType::NORMAL;
 	SetBulletsSize(0.5f);
 }
@@ -55,7 +56,6 @@ void GameState::SetBulletsSize(float const & size) {
 }
 
 void GameState::UpdateBulletNormal(Bullet& bullet, float const & elapsed) {
-#pragma region Bullet movement.
 	const Vector3 before_move = bullet.GetPosition();
 	{
 		Vector3 move = bullet.direction;
@@ -65,14 +65,18 @@ void GameState::UpdateBulletNormal(Bullet& bullet, float const & elapsed) {
 		bullet.SetPosition(bullet.GetPosition() + move);		// Actually move.
 	}
 	const Vector3 after_move = bullet.GetPosition();
-#pragma endregion
+
 	if (CheckBulletCollisionGaps(bullet, before_move, after_move)) bullet.is_alive = false;
-#pragma region Collision check.
 	if (CheckWallCollision(bullet.hitbox)) bullet.is_alive = false;
-#pragma endregion
+
 	bullet.Update(elapsed);
 }
 
+void GameState::CheckWindAffection(Bullet & bullet, const float & elapsed) {
+	for (auto const & wind : winds) {
+		if (wind.Contains(bullet.hitbox)) wind.Affect(bullet, elapsed);
+	}
+}
 
 void GameState::UpdateBulletSimple(Bullet & bullet, const float & elapsed) {
 	const Vector3 before_move = bullet.GetPosition();
@@ -81,8 +85,6 @@ void GameState::UpdateBulletSimple(Bullet & bullet, const float & elapsed) {
 }
 
 void GameState::UpdateBulletAdvanced(Bullet & bullet, const float & elapsed) {
-	//TODO implement advanced.
-#pragma region Bullet movement.
 	const Vector3 before_move = bullet.GetPosition();
 	{
 		Vector3 move = bullet.direction;
@@ -92,13 +94,16 @@ void GameState::UpdateBulletAdvanced(Bullet & bullet, const float & elapsed) {
 		bullet.SetPosition(bullet.GetPosition() + move);		// Actually move.
 	}
 	const Vector3 after_move = bullet.GetPosition();
-#pragma endregion
+
+	CheckWindAffection(bullet, elapsed);
+	if (CheckBulletCollisionGaps(bullet, before_move, after_move)) bullet.is_alive = false;
+	if (CheckWallCollision(bullet.hitbox)) bullet.is_alive = false;
+
 	bullet.Update(elapsed);
 }
 
 void GameState::UpdateBulletRealistic(Bullet & bullet, const float & elapsed) {
 	//TODO implement realistic.
-#pragma region Bullet movement.
 	const Vector3 before_move = bullet.GetPosition();
 	{
 		Vector3 move = bullet.direction;
@@ -108,7 +113,10 @@ void GameState::UpdateBulletRealistic(Bullet & bullet, const float & elapsed) {
 		bullet.SetPosition(bullet.GetPosition() + move);		// Actually move.
 	}
 	const Vector3 after_move = bullet.GetPosition();
-#pragma endregion
+
+	if (CheckBulletCollisionGaps(bullet, before_move, after_move)) bullet.is_alive = false;
+	if (CheckWallCollision(bullet.hitbox)) bullet.is_alive = false;
+
 	bullet.Update(elapsed);
 }
 
@@ -144,4 +152,10 @@ bool GameState::CheckWallCollision(Hitbox const & hitbox) const {
 			return true;
 	}
 	return false;
+}
+
+void GameState::CreateWinds() {
+	Wind main_hall_wind{ {0.f, 20.f, 0.f}, {40.f, 40.f, 40.f}, {10.f, 0.f, 0.f} };
+
+	winds.push_back(main_hall_wind);
 }

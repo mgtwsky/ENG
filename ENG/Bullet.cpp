@@ -10,9 +10,9 @@ void Bullet::Update(float const & elapsed) {
 	alive.Update(elapsed);
 }
 
-void Bullet::Render(CXMMATRIX view, CXMMATRIX proj, GeometricPrimitive * shape, GeometricPrimitive * hitbox_shape) {
-	Matrix bullet_pos = Matrix::CreateScale(size) * Matrix::CreateTranslation(position);
-	Matrix hitbox_pos = Matrix::CreateScale(hitbox.GetExtends() * 2) * Matrix::CreateTranslation(hitbox.GetPosition());
+void Bullet::Render(CXMMATRIX view, CXMMATRIX proj, GeometricPrimitive * shape, GeometricPrimitive * hitbox_shape) const {
+	const Matrix bullet_pos = Matrix::CreateScale(size) * Matrix::CreateTranslation(position);
+	const Matrix hitbox_pos = Matrix::CreateScale(hitbox.GetExtends() * 2) * Matrix::CreateTranslation(hitbox.GetPosition());
 
 	shape->Draw(bullet_pos, view, proj);
 	hitbox_shape->Draw(hitbox_pos, view, proj, hitbox_color);
