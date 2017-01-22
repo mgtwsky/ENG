@@ -26,5 +26,5 @@ Vector3 Hitbox::GetExtends() const {
 }
 
 void Hitbox::SetExtends(Vector3 const & extends) {
-	bound.Extents = extends;
+	bound.Extents = Vector3(extends / 2);
 }
