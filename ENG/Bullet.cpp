@@ -2,7 +2,7 @@
 #include "Bullet.h"
 
 
-Bullet::Bullet() : alive{ 2.f }, direction{}, ballistics_type{ BallisticsType::NORMAL } {}
+Bullet::Bullet() : alive{ 2.f }, direction{}, ballistics_type{ BallisticsType::NORMAL }, hitbox_color{ 1.f,0.f,0.f,0.25f } {}
 
 Bullet::~Bullet() {}
 
@@ -11,14 +11,13 @@ void Bullet::Update(float const & elapsed) {
 }
 
 void Bullet::Render(CXMMATRIX view, CXMMATRIX proj, GeometricPrimitive * shape, GeometricPrimitive * hitbox_shape) {
-	const XMVECTORF32 hitbox_color{ 1.f,0.f,0.f,0.25f };
-	shape->Draw(matrix, view, proj);
+	Matrix bullet_pos = Matrix::CreateScale(size) * Matrix::CreateTranslation(position);
 	Matrix hitbox_pos = Matrix::CreateScale(hitbox.GetExtends()) * Matrix::CreateTranslation(hitbox.GetPosition());
+
+	shape->Draw(bullet_pos, view, proj);
 	hitbox_shape->Draw(hitbox_pos, view, proj, hitbox_color);
 }
 
 void Bullet::SetBulletSize(float const & size) {
-	matrix.m[0][0] = size;
-	matrix.m[1][1] = size;
-	matrix.m[2][2] = size;
+	this->size = Vector3(size);
 }

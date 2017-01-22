@@ -12,7 +12,8 @@ public:
 	void SetPosition(Vector3 const &);
 	bool									is_alive;
 	XMVECTORF32								color;
-	Matrix									matrix;
+	Vector3									position;
+	Vector3                                 size;
 	Hitbox									hitbox;
 };
 

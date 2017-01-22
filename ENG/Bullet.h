@@ -13,5 +13,6 @@ public:
 	BallisticsType				ballistics_type;
 	Counter						alive;
 	Vector3						direction;
+	XMVECTORF32                 hitbox_color;
 };
 

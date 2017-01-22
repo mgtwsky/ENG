@@ -5,20 +5,20 @@ Wall::Wall(ID3D11DeviceContext3 * d3dcontext, Vector3 & const size, Vector3 & co
 	SetPosition(position);
 	this->size = size;
 	hitbox.SetExtends(size);
-	shape = GeometricPrimitive::CreateBox(d3dcontext, this->size);
-	hitbox_shape = GeometricPrimitive::CreateBox(d3dcontext, this->hitbox.GetExtends());
+	shape = GeometricPrimitive::CreateBox(d3dcontext, { 1.f, 1.f, 1.f });
+	hitbox_shape = GeometricPrimitive::CreateBox(d3dcontext, { 1.f, 1.f, 1.f });
 }
 
 Wall::Wall(ID3D11DeviceContext3 * d3dcontext, Vector3 & const size) {
 	this->size = size;
 	hitbox.SetExtends(size);
-	shape = GeometricPrimitive::CreateBox(d3dcontext, this->size);
-	hitbox_shape = GeometricPrimitive::CreateBox(d3dcontext, this->hitbox.GetExtends());
+	shape = GeometricPrimitive::CreateBox(d3dcontext, { 1.f, 1.f, 1.f });
+	hitbox_shape = GeometricPrimitive::CreateBox(d3dcontext, { 1.f, 1.f, 1.f });
 }
 
 Wall::Wall(ID3D11DeviceContext3* d3dcontext) {
-	shape = GeometricPrimitive::CreateBox(d3dcontext, this->size);
-	hitbox_shape = GeometricPrimitive::CreateBox(d3dcontext, this->hitbox.GetExtends());
+	shape = GeometricPrimitive::CreateBox(d3dcontext, { 1.f, 1.f, 1.f });
+	hitbox_shape = GeometricPrimitive::CreateBox(d3dcontext, { 1.f, 1.f, 1.f });
 }
 
 Wall::~Wall() {}
@@ -26,8 +26,10 @@ Wall::~Wall() {}
 void Wall::Render(CXMMATRIX view, CXMMATRIX projection) {
 	const XMVECTORF32 shape_color{ 1.f,0.f,1.f,0.5f };
 	const XMVECTORF32 hitbox_color{ 0.f,0.f,1.f,0.2f };
-	shape->Draw(matrix, view, projection, shape_color);
 	Matrix hitbox_pos = Matrix::CreateScale(hitbox.GetExtends()) * Matrix::CreateTranslation(hitbox.GetPosition());
+	Matrix wall_pos = Matrix::CreateScale(size) * Matrix::CreateTranslation(position);
+
+	shape->Draw(wall_pos, view, projection, shape_color);
 	hitbox_shape->Draw(hitbox_pos, view, projection, hitbox_color);
 }
 
