@@ -155,7 +155,7 @@ bool GameState::CheckWallCollision(Hitbox const & hitbox) const {
 }
 
 void GameState::CreateWinds() {
-	Wind main_hall_wind{ {0.f, 20.f, 0.f}, {40.f, 40.f, 40.f}, {10.f, 0.f, 0.f} };
+	Wind main_hall_wind{ {0.f, 20.f, 0.f}, {40.f, 40.f, 40.f}, {1.f, 0.f, 0.f} };
 
 	winds.push_back(main_hall_wind);
 }

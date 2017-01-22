@@ -13,8 +13,7 @@ bool Wind::Contains(Hitbox const & hitbox) const {
 }
 
 void Wind::Affect(Bullet & bullet, float const & elapsed) const {
-	const Vector3 bullet_new_position = bullet.GetPosition() += direction * elapsed;
-	bullet.SetPosition(bullet_new_position);
+	bullet.direction += direction * elapsed;
 }
 
 void Wind::Render(CXMMATRIX view, CXMMATRIX proj, GeometricPrimitive * hitbox_shape) const {
