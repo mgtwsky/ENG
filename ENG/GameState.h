@@ -4,6 +4,7 @@
 #include "Bullet.h"
 #include "Player.h"
 #include "GameConstants.h"
+#include "Wind.h"
 
 class GameState {
 public:
@@ -18,6 +19,7 @@ public:
 	BallisticsType				creation_bullet_type;
 	std::vector<Wall>			walls;
 	std::vector<Bullet>			bullets;
+	std::vector<Wind>           winds;
 private:
 	void UpdateBulletNormal(Bullet& bullet, const float & elapsed);
 	void UpdateBulletSimple(Bullet& bullet, const float & elapsed);

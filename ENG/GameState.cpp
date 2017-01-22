@@ -4,10 +4,10 @@
 GameState::GameState() : player{} {
 	walls = std::vector<Wall>();
 	bullets = std::vector<Bullet>();
+	winds = std::vector<Wind>();
 	creation_bullet_type = BallisticsType::NORMAL;
 	SetBulletsSize(0.5f);
 }
-
 
 GameState::~GameState() {}
 
