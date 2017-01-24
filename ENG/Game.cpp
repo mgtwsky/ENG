@@ -85,21 +85,19 @@ void Game::Update(DX::StepTimer const& timer) {
 		m_camera.pitch = m_camera.yaw = 0;
 	}
 	Vector3 move = Vector3::Zero;
-	if (kb.Up || kb.W)		move.y += 1.f;
-	if (kb.Down || kb.S)		move.y -= 1.f;
-	if (kb.Left || kb.A)		move.x += 1.f;
+	if (kb.Left  || kb.A)		move.x += 1.f;
 	if (kb.Right || kb.D)		move.x -= 1.f;
-	if (kb.PageUp || kb.Space)	move.z += 1.f;
-	if (kb.PageDown || kb.X)		move.z -= 1.f;
-	if (kb.U)							m_gamestate.creation_bullet_type = BallisticsType::SIMPLE;
-	if (kb.I)							m_gamestate.creation_bullet_type = BallisticsType::NORMAL;
-	if (kb.O)							m_gamestate.creation_bullet_type = BallisticsType::ADVANCED;
-	if (kb.P)							m_gamestate.creation_bullet_type = BallisticsType::REALISTIC;
+	if (kb.Up    || kb.W)	    move.z += 1.f;
+	if (kb.Down  || kb.S)		move.z -= 1.f;
+	if (kb.U) m_gamestate.creation_bullet_type = BallisticsType::SIMPLE;
+	if (kb.I) m_gamestate.creation_bullet_type = BallisticsType::NORMAL;
+	if (kb.O) m_gamestate.creation_bullet_type = BallisticsType::ADVANCED;
+	if (kb.P) m_gamestate.creation_bullet_type = BallisticsType::REALISTIC;
 	Quaternion q = Quaternion::CreateFromYawPitchRoll(m_camera.yaw, m_camera.pitch, 0.f);
-	move = Vector3::Transform(move, q);
-	move *= MOVEMENT_GAIN;												// Create move direction vector.
-	m_gamestate.player.position += move;								// Move player.
-	m_camera.camera_pos = m_gamestate.player.position;					// Do not forget to move camera with the player (KEK).
+	move = Vector3::Transform(move, q) * MOVEMENT_GAIN;
+	move.y = 0;
+	m_gamestate.player.position += move;
+	m_camera.camera_pos = m_gamestate.player.position;
 	m_gamestate.CreateBullet(m_gamestate.player.position + m_gamestate.player.look_direction, m_gamestate.player.look_direction, m_gamestate.creation_bullet_type);
 #pragma region Updating Bullets
 	m_gamestate.DestroyDeadBullets();
