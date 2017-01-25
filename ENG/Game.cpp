@@ -12,7 +12,7 @@ using Microsoft::WRL::ComPtr;
 
 static const XMVECTORF32 START_POSITION = { 0.f, 1.5f, 0.f, 0.f };
 static const float ROTATION_GAIN = 0.004f;
-static const float MOVEMENT_GAIN = 0.07f;
+static const float MOVEMENT_GAIN = 10.f;
 
 Game::Game() :
 	m_window(0),
@@ -79,7 +79,7 @@ void Game::Update(DX::StepTimer const& timer) {
 		if (m_camera.yaw > XM_PI) { m_camera.yaw -= XM_PI * 2.0f; } else if (m_camera.yaw < -XM_PI) { m_camera.yaw += XM_PI * 2.0f; }
 	}
 	m_gamestate.player.look_direction = m_camera.CreateLookDirectionVec();
-	m_mouse->SetMode(mouse.leftButton ? Mouse::MODE_RELATIVE : Mouse::MODE_ABSOLUTE);
+	m_mouse->SetMode(Mouse::MODE_RELATIVE);
 	if (kb.Home) {
 		m_gamestate.player.position = START_POSITION.v;
 		m_camera.pitch = m_camera.yaw = 0;
@@ -94,7 +94,7 @@ void Game::Update(DX::StepTimer const& timer) {
 	if (kb.O) m_gamestate.creation_bullet_type = BallisticsType::ADVANCED;
 	if (kb.P) m_gamestate.creation_bullet_type = BallisticsType::REALISTIC;
 	Quaternion q = Quaternion::CreateFromYawPitchRoll(m_camera.yaw, m_camera.pitch, 0.f);
-	move = Vector3::Transform(move, q) * MOVEMENT_GAIN;
+	move = Vector3::Transform(move, q) * MOVEMENT_GAIN * elapsedTime;
 	move.y = 0;
 	m_gamestate.player.position += move;
 	m_camera.camera_pos = m_gamestate.player.position;

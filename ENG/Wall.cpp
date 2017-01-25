@@ -34,7 +34,12 @@ void Wall::Render(CXMMATRIX view, CXMMATRIX projection) const {
 }
 
 void Wall::CreateWalls(ID3D11DeviceContext3* d3dcontext, std::vector<Wall>& walls) {
-	Vector3 size{ 40.f, .1f, 40.f };
+	CreateMainHall(d3dcontext, walls);
+	CreateConnector(d3dcontext, walls);
+}
+
+void Wall::CreateMainHall(ID3D11DeviceContext3 * d3dcontext, std::vector<Wall> & walls) {
+	Vector3 size{ 400.f, .1f, 400.f };
 	Vector3 front_size{ 40.f, 10.f, .5f };
 	Vector3 left_size{ .5f, 10.f, 40.f };
 	Vector3 right_size{ .5f, 10.f, 40.f };
@@ -48,4 +53,12 @@ void Wall::CreateWalls(ID3D11DeviceContext3* d3dcontext, std::vector<Wall>& wall
 	walls.push_back(front_wall);
 	walls.push_back(left_wall);
 	walls.push_back(right_wall);
+}
+
+void Wall::CreateConnector(ID3D11DeviceContext3 * d3dcontext, std::vector<Wall>& walls) {
+	Vector3 front_wall_size{ 120.f,10.f,0.5f };
+
+	Wall front_wall{ d3dcontext, front_wall_size, Vector3(0.f,front_wall_size.y / 2, -40.f) };
+
+	walls.push_back(front_wall);
 }
