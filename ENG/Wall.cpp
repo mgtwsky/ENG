@@ -36,6 +36,8 @@ void Wall::Render(CXMMATRIX view, CXMMATRIX projection) const {
 void Wall::CreateWalls(ID3D11DeviceContext3* d3dcontext, std::vector<Wall>& walls) {
 	CreateMainHall(d3dcontext, walls);
 	CreateConnector(d3dcontext, walls);
+	CreateHeavyLoadRoom(d3dcontext, walls);
+	CreateMultiplePPLRoom(d3dcontext, walls);
 }
 
 void Wall::CreateMainHall(ID3D11DeviceContext3 * d3dcontext, std::vector<Wall> & walls) {
@@ -61,4 +63,26 @@ void Wall::CreateConnector(ID3D11DeviceContext3 * d3dcontext, std::vector<Wall>&
 	Wall front_wall{ d3dcontext, front_wall_size, Vector3(0.f,front_wall_size.y / 2, -40.f) };
 
 	walls.push_back(front_wall);
+}
+
+void Wall::CreateHeavyLoadRoom(ID3D11DeviceContext3 * d3dcontext, std::vector<Wall>& walls) {
+	Vector3 left_wall_size{ .5f, 10.f, 60.f };
+	Vector3 back_wall_size{ 40.f, 10.f, .5f };
+
+	Wall left_wall{ d3dcontext, left_wall_size, Vector3(-60.f,left_wall_size.y / 2,-10.f) };
+	Wall back_wall{ d3dcontext, back_wall_size, Vector3(-40.f,back_wall_size.y / 2,20.f) };
+
+	walls.push_back(left_wall);
+	walls.push_back(back_wall);
+}
+
+void Wall::CreateMultiplePPLRoom(ID3D11DeviceContext3 * d3dcontext, std::vector<Wall>& walls) {
+	Vector3 right_wall_size{ .5f, 10.f, 60.f };
+	Vector3 back_wall_size{ 40.f, 10.f, .5f };
+
+	Wall right_wall{ d3dcontext, right_wall_size, Vector3(60.f,right_wall_size.y / 2,-10.f) };
+	Wall back_wall{ d3dcontext, back_wall_size, Vector3(40.f,back_wall_size.y / 2,20.f) };
+
+	walls.push_back(right_wall);
+	walls.push_back(back_wall);
 }
