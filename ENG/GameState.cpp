@@ -167,15 +167,32 @@ bool GameState::CheckWallCollision(Hitbox const & hitbox) const {
 
 void GameState::CreateWinds() {
 	Wind main_hall_wind{ {0.f, 20.f, 0.f}, {40.f, 40.f, 40.f}, {1.f, 0.f, 0.f} };
+	Wind heavy_load_room_wind{ { 40.f, 20.f, -10.f },{ 40.f, 40.f, 60.f } , {0.f,0.f,1.f} };
+	Wind multiple_ppl_room_wind{ { -40.f, 20.f, -10.f },{ 40.f, 40.f, 60.f } ,{ 0.f,0.f,1.f } };
 
 	winds.push_back(main_hall_wind);
+	winds.push_back(heavy_load_room_wind);
+	winds.push_back(multiple_ppl_room_wind);
 }
 
 void GameState::CreateMultiplePPLBots() {
 	for (int i = 0; i < 32; i++) {
-		Vector3 position{ (-rand() % 40 - 20.f),2.f,(rand() % 60 - 30.f) };
+		Vector3 position{ (-rand() % 40 - 20.f),2.f,(rand() % 60 - 40.f) };
 		Vector3 size{ 2.f,4.f,2.f };
 		Vector3 direction{ (float)rand(),0.f,(float)rand() };
+		direction.Normalize();
+
+		Bot bot{ position,size,direction };
+
+		bots.push_back(bot);
+	}
+}
+
+void GameState::CreateHeavyLoadBots() {
+	for (int i = 0; i < 40; i++) {
+		Vector3 position{ 60.f,4.f, (i / 40.f *60.f) - 40.f };
+		Vector3 size{ 1.f,1.f,1.f };
+		Vector3 direction{ -1.f,0.f,0.f };
 		direction.Normalize();
 
 		Bot bot{ position,size,direction };

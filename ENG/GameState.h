@@ -19,6 +19,7 @@ public:
 	void DestroyDeadBullets();
 	void SetBulletsSize(float const & size);
 	void CreateMultiplePPLBots();
+	void CreateHeavyLoadBots();
 	void ClearBots();
 	bool IsPlayerInHeavyLoadRoom() const;
 	bool IsPlayerInMultiplePPLRoom() const;

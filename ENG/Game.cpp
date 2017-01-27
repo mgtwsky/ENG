@@ -105,11 +105,11 @@ void Game::Update(DX::StepTimer const& timer) {
 	m_gamestate.DestroyDeadBullets();
 	m_gamestate.UpdateBullets(elapsedTime);
 #pragma endregion Logic of bullets
-	if (m_gamestate.IsPlayerInHeavyLoadRoom() && m_gamestate.bots.empty());
+	if (m_gamestate.IsPlayerInHeavyLoadRoom() && m_gamestate.bots.empty())
+		m_gamestate.CreateHeavyLoadBots();
 	if (m_gamestate.IsPlayerInMultiplePPLRoom() && m_gamestate.bots.empty())
 		m_gamestate.CreateMultiplePPLBots();
-	if (!m_gamestate.IsPlayerInHeavyLoadRoom() && !m_gamestate.bots.empty());
-	if (!m_gamestate.IsPlayerInMultiplePPLRoom() && !m_gamestate.bots.empty())
+	if (!m_gamestate.IsPlayerInHeavyLoadRoom() && !m_gamestate.IsPlayerInMultiplePPLRoom() && !m_gamestate.bots.empty())
 		m_gamestate.ClearBots();
 	m_gamestate.UpdateBots(elapsedTime);
 }
