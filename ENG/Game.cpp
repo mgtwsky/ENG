@@ -82,13 +82,14 @@ void Game::Update(DX::StepTimer const& timer) {
 	m_mouse->SetMode(Mouse::MODE_RELATIVE);
 	if (kb.Home) {
 		m_gamestate.player.position = START_POSITION.v;
+		m_gamestate.player.hitbox.SetPosition(START_POSITION.v);
 		m_camera.pitch = m_camera.yaw = 0;
 	}
 	Vector3 move = Vector3::Zero;
-	if (kb.Left  || kb.A)		move.x += 1.f;
+	if (kb.Left || kb.A)		move.x += 1.f;
 	if (kb.Right || kb.D)		move.x -= 1.f;
-	if (kb.Up    || kb.W)	    move.z += 1.f;
-	if (kb.Down  || kb.S)		move.z -= 1.f;
+	if (kb.Up || kb.W)	        move.z += 1.f;
+	if (kb.Down || kb.S)		move.z -= 1.f;
 	if (kb.U) m_gamestate.creation_bullet_type = BallisticsType::SIMPLE;
 	if (kb.I) m_gamestate.creation_bullet_type = BallisticsType::NORMAL;
 	if (kb.O) m_gamestate.creation_bullet_type = BallisticsType::ADVANCED;
@@ -97,12 +98,20 @@ void Game::Update(DX::StepTimer const& timer) {
 	move = Vector3::Transform(move, q) * MOVEMENT_GAIN * elapsedTime;
 	move.y = 0;
 	m_gamestate.player.position += move;
+	m_gamestate.player.hitbox.SetPosition(m_gamestate.player.position);
 	m_camera.camera_pos = m_gamestate.player.position;
-	m_gamestate.CreateBullet(m_gamestate.player.position + m_gamestate.player.look_direction, m_gamestate.player.look_direction, m_gamestate.creation_bullet_type);
+	if (mouse.leftButton) m_gamestate.CreateBullet(m_gamestate.player.position + m_gamestate.player.look_direction, m_gamestate.player.look_direction, m_gamestate.creation_bullet_type);
 #pragma region Updating Bullets
 	m_gamestate.DestroyDeadBullets();
 	m_gamestate.UpdateBullets(elapsedTime);
 #pragma endregion Logic of bullets
+	if (m_gamestate.IsPlayerInHeavyLoadRoom() && m_gamestate.bots.empty());
+	if (m_gamestate.IsPlayerInMultiplePPLRoom() && m_gamestate.bots.empty())
+		m_gamestate.CreateMultiplePPLBots();
+	if (!m_gamestate.IsPlayerInHeavyLoadRoom() && !m_gamestate.bots.empty());
+	if (!m_gamestate.IsPlayerInMultiplePPLRoom() && !m_gamestate.bots.empty())
+		m_gamestate.ClearBots();
+	m_gamestate.UpdateBots(elapsedTime);
 }
 
 // Draws the scene.
@@ -129,6 +138,9 @@ void Game::Render() {
 	for (auto const & wind : m_gamestate.winds) {
 		wind.Render(view, m_camera.proj, m_hitbox_shape.get());
 	}
+
+	m_gamestate.DrawRoomHitboxes(view, m_camera.proj, m_hitbox_shape.get());
+	m_gamestate.DrawBots(view, m_camera.proj, m_hitbox_shape.get());
 
 	Present();
 }

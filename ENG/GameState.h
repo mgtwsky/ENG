@@ -5,21 +5,30 @@
 #include "Player.h"
 #include "GameConstants.h"
 #include "Wind.h"
+#include "Bot.h"
 
 class GameState {
 public:
 	GameState();
 	~GameState();
-	void CreateBullet(Vector3& const position, Vector3& const direction = Vector3{}, BallisticsType type = BallisticsType::NORMAL);
+	void CreateBullet(Vector3& const position, Vector3& const direction, BallisticsType type = BallisticsType::NORMAL);
 	void UpdateBullets(float const & elapsed);
+	void DrawRoomHitboxes(CXMMATRIX view, CXMMATRIX proj, GeometricPrimitive* shape);
+	void DrawBots(CXMMATRIX view, CXMMATRIX proj, GeometricPrimitive* shape) const;
+	void UpdateBots(float const & elapsed);
 	void DestroyDeadBullets();
 	void SetBulletsSize(float const & size);
+	void CreateMultiplePPLBots();
+	void ClearBots();
+	bool IsPlayerInHeavyLoadRoom() const;
+	bool IsPlayerInMultiplePPLRoom() const;
 	GameConstants				constants;
 	Player						player;
 	BallisticsType				creation_bullet_type;
 	std::vector<Wall>			walls;
 	std::vector<Bullet>			bullets;
 	std::vector<Wind>           winds;
+	std::vector<Bot>            bots;
 private:
 	void UpdateBulletNormal(Bullet& bullet, const float & elapsed);
 	void CheckWindAffection(Bullet & bullet, const float & elapsed);
@@ -32,5 +41,8 @@ private:
 	void CreateWinds();
 	float						bullet_size;
 	float						bullet_hitbox_size;
+	Hitbox                      heavy_load_room{ { 40.f, 20.f, -10.f },{ 20.f, 20.f, 30.f } };
+	Hitbox                      multiple_ppl_room{ { -40.f, 20.f, -10.f },{ 20.f, 20.f, 30.f } };
+	const XMVECTORF32           room_hitbox_color{ 1.f,1.f,0.f,0.2f };
 };
 
