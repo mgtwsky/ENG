@@ -206,12 +206,12 @@ void GameState::ClearBots() {
 }
 
 void GameState::IncreaseBulletSize(float const & sizeToIncrease) {
-	bullet_size += 0.1f;
+	bullet_size += sizeToIncrease;
 	SetBulletsSize(bullet_size);
 }
 
-void GameState::DecreaseBulletSize(float const & sizeToIncrease) {
-	bullet_size -= 0.1f;
+void GameState::DecreaseBulletSize(float const & sizeToDecrease) {
+	bullet_size -= sizeToDecrease;
 	if (bullet_size < 0.1f) bullet_size = 0.1f;
 	SetBulletsSize(bullet_size);
 }
