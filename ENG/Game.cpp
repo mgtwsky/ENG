@@ -90,6 +90,8 @@ void Game::Update(DX::StepTimer const& timer) {
 	if (kb.Right || kb.D)		move.x -= 1.f;
 	if (kb.Up || kb.W)	        move.z += 1.f;
 	if (kb.Down || kb.S)		move.z -= 1.f;
+	if (kb.OemOpenBrackets)     m_gamestate.DecreaseBulletSize(0.1f);
+	if (kb.OemCloseBrackets)    m_gamestate.IncreaseBulletSize(0.1f);
 	if (kb.U) m_gamestate.creation_bullet_type = BallisticsType::SIMPLE;
 	if (kb.I) m_gamestate.creation_bullet_type = BallisticsType::NORMAL;
 	if (kb.O) m_gamestate.creation_bullet_type = BallisticsType::ADVANCED;
@@ -116,14 +118,12 @@ void Game::Update(DX::StepTimer const& timer) {
 
 // Draws the scene.
 void Game::Render() {
-	// Don't try to render anything before the first Update.
 	if (m_timer.GetFrameCount() == 0) {
 		return;
 	}
 
 	Clear();
 
-	// TODO: Add your rendering code here.
 	XMVECTOR lookAt = m_camera.camera_pos + m_gamestate.player.look_direction;
 
 	XMMATRIX view = XMMatrixLookAtRH(m_camera.camera_pos, lookAt, Vector3::Up);
@@ -147,13 +147,11 @@ void Game::Render() {
 
 // Helper method to clear the back buffers.
 void Game::Clear() {
-	// Clear the views
 	m_d3dContext->ClearRenderTargetView(m_renderTargetView.Get(), Colors::CornflowerBlue);
 	m_d3dContext->ClearDepthStencilView(m_depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
 	m_d3dContext->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), m_depthStencilView.Get());
 
-	// Set the viewport.
 	CD3D11_VIEWPORT viewport(0.0f, 0.0f, static_cast<float>(m_outputWidth), static_cast<float>(m_outputHeight));
 	m_d3dContext->RSSetViewports(1, &viewport);
 }
@@ -182,13 +180,9 @@ void Game::Present() {
 }
 
 // Message handlers
-void Game::OnActivated() {
-	// TODO: Game is becoming active window.
-}
+void Game::OnActivated() {}
 
-void Game::OnDeactivated() {
-	// TODO: Game is becoming background window.
-}
+void Game::OnDeactivated() {}
 
 void Game::OnSuspending() {
 	m_d3dContext->ClearState();
@@ -197,14 +191,10 @@ void Game::OnSuspending() {
 	if (SUCCEEDED(m_d3dDevice.As(&dxgiDevice))) {
 		dxgiDevice->Trim();
 	}
-
-	// TODO: Game is being power-suspended.
 }
 
 void Game::OnResuming() {
 	m_timer.ResetElapsedTime();
-
-	// TODO: Game is being power-resumed.
 }
 
 void Game::OnWindowSizeChanged(int width, int height, DXGI_MODE_ROTATION rotation) {
@@ -213,8 +203,6 @@ void Game::OnWindowSizeChanged(int width, int height, DXGI_MODE_ROTATION rotatio
 	m_outputRotation = rotation;
 
 	CreateResources();
-
-	// TODO: Game window is being resized.
 }
 
 void Game::ValidateDevice() {
@@ -262,9 +250,8 @@ void Game::ValidateDevice() {
 
 // Properties
 void Game::GetDefaultSize(int& width, int& height) const {
-	// TODO: Change to desired default window size (note minimum size is 320x200).
-	width = 1024;
-	height = 768;
+	width = 800;
+	height = 600;
 }
 
 // These are the resources that depend on the device.
@@ -445,7 +432,6 @@ void Game::CreateResources() {
 }
 
 void Game::OnDeviceLost() {
-	// TODO: Add Direct3D resource cleanup here.
 	m_depthStencilView.Reset();
 	m_renderTargetView.Reset();
 	m_swapChain.Reset();

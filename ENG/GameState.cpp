@@ -205,6 +205,17 @@ void GameState::ClearBots() {
 	bots.clear();
 }
 
+void GameState::IncreaseBulletSize(float const & sizeToIncrease) {
+	bullet_size += 0.1f;
+	SetBulletsSize(bullet_size);
+}
+
+void GameState::DecreaseBulletSize(float const & sizeToIncrease) {
+	bullet_size -= 0.1f;
+	if (bullet_size < 0.1f) bullet_size = 0.1f;
+	SetBulletsSize(bullet_size);
+}
+
 bool GameState::IsPlayerInHeavyLoadRoom() const {
 	return heavy_load_room.Collides(player.hitbox);
 }

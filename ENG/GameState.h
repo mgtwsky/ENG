@@ -21,6 +21,8 @@ public:
 	void CreateMultiplePPLBots();
 	void CreateHeavyLoadBots();
 	void ClearBots();
+	void IncreaseBulletSize(float const & sizeToIncrease);
+	void DecreaseBulletSize(float const & sizeToIncrease);
 	bool IsPlayerInHeavyLoadRoom() const;
 	bool IsPlayerInMultiplePPLRoom() const;
 	GameConstants				constants;
