@@ -3,9 +3,7 @@
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-class Hitbox
-{
-public:
+struct Hitbox {
 	Hitbox();
 	Hitbox(Vector3 const & position, Vector3 const & extends);
 	~Hitbox();

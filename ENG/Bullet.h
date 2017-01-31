@@ -3,8 +3,7 @@
 #include "Counter.h"
 #include "GameConstants.h"
 
-class Bullet : public Entity {
-public:
+struct Bullet : public Entity {
 	Bullet();
 	~Bullet();
 	void Update(float const & elapsed);
