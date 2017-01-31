@@ -132,7 +132,7 @@ void GameState::UpdateBulletRealistic(Bullet & bullet, const float & elapsed) {
 }
 
 bool GameState::CheckBulletCollisionGaps(const Bullet & bullet, const Vector3 & before_move, const Vector3 & after_move) const {
-	const float travel_length = (after_move - before_move).Length();		// If bullet has travelled so far that it creates gaps of collisions.
+	const float travel_length = (after_move - before_move).Length();
 	const float hitbox_length = bullet.hitbox.GetExtends().Length() * 2;
 	const int overtravel_times = (int)travel_length / hitbox_length;;
 	if (overtravel_times > 0) {

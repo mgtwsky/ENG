@@ -4,8 +4,7 @@
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-class Entity {
-public:
+struct Entity {
 	Entity();
 	~Entity();
 	Vector3 GetPosition() const;
