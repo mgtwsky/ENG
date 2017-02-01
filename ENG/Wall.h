@@ -6,9 +6,7 @@
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-class Wall : public Entity
-{
-public:
+struct Wall : public Entity {
 	Wall(ID3D11DeviceContext3* d3dcontext, Vector3& const size, Vector3& const position);
 	Wall(ID3D11DeviceContext3* d3dcontext, Vector3& const size);
 	Wall(ID3D11DeviceContext3* d3dcontext);

@@ -58,18 +58,14 @@ void GameState::SetBulletsSize(float const & size) {
 
 void GameState::UpdateBulletNormal(Bullet& bullet, float const & elapsed) {
 	const Vector3 before_move = bullet.GetPosition();
-	{
-		Vector3 move = bullet.direction;
-		move *= constants.bullet_normal_speed;					// Make directional vector a proper length.
-		move *= elapsed;										// Multiply by time delta ofc.
-		bullet.direction += constants.gravity_vec * elapsed;	// Apply gravity.
-		bullet.SetPosition(bullet.GetPosition() + move);		// Actually move.
-	}
+	Vector3 move = bullet.direction;
+	move *= constants.bullet_normal_speed;
+	move *= elapsed;
+	bullet.direction += constants.gravity_vec * elapsed;
+	bullet.SetPosition(bullet.GetPosition() + move);
 	const Vector3 after_move = bullet.GetPosition();
-
 	if (CheckBulletCollisionGaps(bullet, before_move, after_move)) bullet.is_alive = false;
 	if (CheckWallCollision(bullet.hitbox)) bullet.is_alive = false;
-
 	bullet.Update(elapsed);
 }
 
@@ -81,53 +77,43 @@ void GameState::CheckWindAffection(Bullet & bullet, const float & elapsed) {
 
 void GameState::UpdateBulletSimple(Bullet & bullet, const float & elapsed) {
 	const Vector3 before_move = bullet.GetPosition();
-	{
-		Vector3 move = bullet.direction;
-		move *= constants.bullet_normal_speed;					// Make directional vector a proper length.
-		move *= elapsed;										// Multiply by time delta ofc.
-		bullet.SetPosition(bullet.GetPosition() + move);		// Actually move.
-	}
+	Vector3 move = bullet.direction;
+	move *= constants.bullet_normal_speed;
+	move *= elapsed;
+	bullet.SetPosition(bullet.GetPosition() + move);
 	const Vector3 after_move = bullet.GetPosition();
-
 	if (CheckBulletCollisionGaps(bullet, before_move, after_move)) bullet.is_alive = false;
 	if (CheckWallCollision(bullet.hitbox)) bullet.is_alive = false;
-
 	bullet.Update(elapsed);
 }
 
 void GameState::UpdateBulletAdvanced(Bullet & bullet, const float & elapsed) {
 	const Vector3 before_move = bullet.GetPosition();
-	{
-		Vector3 move = bullet.direction;
-		move *= constants.bullet_normal_speed;					// Make directional vector a proper length.
-		move *= elapsed;										// Multiply by time delta ofc.
-		bullet.direction += constants.gravity_vec * elapsed;	// Apply gravity.
-		bullet.SetPosition(bullet.GetPosition() + move);		// Actually move.
-	}
+	Vector3 move = bullet.direction;
+	move *= constants.bullet_normal_speed;
+	move *= elapsed;
+	bullet.direction += constants.gravity_vec * elapsed;
+	bullet.SetPosition(bullet.GetPosition() + move);
 	const Vector3 after_move = bullet.GetPosition();
-
 	CheckWindAffection(bullet, elapsed);
 	if (CheckBulletCollisionGaps(bullet, before_move, after_move)) bullet.is_alive = false;
 	if (CheckWallCollision(bullet.hitbox)) bullet.is_alive = false;
-
 	bullet.Update(elapsed);
 }
 
 void GameState::UpdateBulletRealistic(Bullet & bullet, const float & elapsed) {
-	//TODO implement realistic.
 	const Vector3 before_move = bullet.GetPosition();
-	{
-		Vector3 move = bullet.direction;
-		move *= constants.bullet_normal_speed;					// Make directional vector a proper length.
-		move *= elapsed;										// Multiply by time delta ofc.
-		bullet.direction += constants.gravity_vec * elapsed;	// Apply gravity.
-		bullet.SetPosition(bullet.GetPosition() + move);		// Actually move.
-	}
+	Vector3 move = bullet.direction;
+	move *= constants.bullet_normal_speed;
+	move.x *= 0.99f;
+	move.z *= 0.99f;
+	move *= elapsed;
+	bullet.direction += constants.gravity_vec * elapsed;
+	bullet.SetPosition(bullet.GetPosition() + move);
 	const Vector3 after_move = bullet.GetPosition();
-
+	CheckWindAffection(bullet, elapsed);
 	if (CheckBulletCollisionGaps(bullet, before_move, after_move)) bullet.is_alive = false;
 	if (CheckWallCollision(bullet.hitbox)) bullet.is_alive = false;
-
 	bullet.Update(elapsed);
 }
 
