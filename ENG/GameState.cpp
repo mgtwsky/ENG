@@ -162,13 +162,13 @@ void GameState::CreateWinds() {
 }
 
 void GameState::CreateMultiplePPLBots() {
-	for (int i = 0; i < 32; i++) {
-		Vector3 position{ (-rand() % 40 - 20.f),2.f,(rand() % 60 - 40.f) };
+	for (int i = 0; i < 48; i++) {
+		Vector3 position{ (-rand() % 36 - 22.f),2.f,(rand() % 56 - 38.f) };
 		Vector3 size{ 2.f,4.f,2.f };
 		Vector3 direction{ (float)rand(),0.f,(float)rand() };
 		direction.Normalize();
 
-		Bot bot{ position,size,direction };
+		Bot bot{ position,size,direction,false };
 
 		bots.push_back(bot);
 	}
@@ -176,12 +176,12 @@ void GameState::CreateMultiplePPLBots() {
 
 void GameState::CreateHeavyLoadBots() {
 	for (int i = 0; i < 40; i++) {
-		Vector3 position{ 60.f,4.f, (i / 40.f *60.f) - 40.f };
+		Vector3 position{ 60.f,4.f, (i / 40.f *56.f) - 38.f };
 		Vector3 size{ 1.f,1.f,1.f };
 		Vector3 direction{ -1.f,0.f,0.f };
 		direction.Normalize();
 
-		Bot bot{ position,size,direction };
+		Bot bot{ position,size,direction, true };
 
 		bots.push_back(bot);
 	}
@@ -210,6 +210,10 @@ bool GameState::IsPlayerInMultiplePPLRoom() const {
 	return multiple_ppl_room.Collides(player.hitbox);
 }
 
+bool GameState::IntersectsWithRoom(Hitbox const & room, Hitbox const & collider) {
+	return room.Intersects(collider);
+}
+
 void GameState::DrawRoomHitboxes(CXMMATRIX view, CXMMATRIX proj, GeometricPrimitive * shape) {
 	Matrix hlr_pos = Matrix::CreateScale(heavy_load_room.GetExtends() * 2) * Matrix::CreateTranslation(heavy_load_room.GetPosition());
 	Matrix mpr_pos = Matrix::CreateScale(multiple_ppl_room.GetExtends() * 2) * Matrix::CreateTranslation(multiple_ppl_room.GetPosition());
@@ -228,6 +232,11 @@ void GameState::DrawBots(CXMMATRIX view, CXMMATRIX proj, GeometricPrimitive * sh
 
 void GameState::UpdateBots(float const & elapsed) {
 	for (auto & bot : bots) {
-		CreateBullet(bot.position + bot.look_direction, bot.look_direction, creation_bullet_type);
+		CreateBullet(bot.position, bot.look_direction, creation_bullet_type);
+		if (IntersectsWithRoom(multiple_ppl_room, bot.hitbox)) {
+			bot.look_direction.x = -bot.look_direction.x;
+			bot.look_direction.z = -bot.look_direction.z;
+		}
+		bot.Update(elapsed);
 	}
 }

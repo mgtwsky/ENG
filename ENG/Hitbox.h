@@ -8,6 +8,7 @@ struct Hitbox {
 	Hitbox(Vector3 const & position, Vector3 const & extends);
 	~Hitbox();
 	bool Collides(Hitbox const & hitbox) const;
+	bool Intersects(Hitbox const & hitbox) const;
 	Vector3 GetPosition() const;
 	void SetPosition(Vector3 const & position);
 	Vector3 GetExtends() const;

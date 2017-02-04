@@ -98,7 +98,6 @@ void Game::Update(DX::StepTimer const& timer) {
 	if (kb.P) m_gamestate.creation_bullet_type = BallisticsType::REALISTIC;
 	Quaternion q = Quaternion::CreateFromYawPitchRoll(m_camera.yaw, m_camera.pitch, 0.f);
 	move = Vector3::Transform(move, q) * MOVEMENT_GAIN * elapsedTime;
-	move.y = 0;
 	m_gamestate.player.position += move;
 	m_gamestate.player.hitbox.SetPosition(m_gamestate.player.position);
 	m_camera.camera_pos = m_gamestate.player.position;

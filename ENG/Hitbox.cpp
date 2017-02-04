@@ -13,6 +13,10 @@ bool Hitbox::Collides(Hitbox const & hitbox) const {
 	return bound.Contains(hitbox.bound);
 }
 
+bool Hitbox::Intersects(Hitbox const & hitbox) const {
+	return bound.Contains(hitbox.bound) == ContainmentType::INTERSECTS;
+}
+
 Vector3 Hitbox::GetPosition() const {
 	return Vector3(bound.Center);
 }

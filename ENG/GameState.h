@@ -25,6 +25,7 @@ public:
 	void DecreaseBulletSize(float const & sizeToIncrease);
 	bool IsPlayerInHeavyLoadRoom() const;
 	bool IsPlayerInMultiplePPLRoom() const;
+	bool IntersectsWithRoom(Hitbox const & room, Hitbox const & collider);
 	GameConstants				constants;
 	Player						player;
 	BallisticsType				creation_bullet_type;
@@ -44,8 +45,8 @@ private:
 	void CreateWinds();
 	float						bullet_size;
 	float						bullet_hitbox_size;
-	Hitbox                      heavy_load_room{ { 40.f, 20.f, -10.f },{ 20.f, 20.f, 30.f } };
-	Hitbox                      multiple_ppl_room{ { -40.f, 20.f, -10.f },{ 20.f, 20.f, 30.f } };
+	Hitbox                      heavy_load_room{ { 40.f, 20.f, -10.f },{ 20.f, 23.f, 30.f } };
+	Hitbox                      multiple_ppl_room{ { -40.f, 20.f, -10.f },{ 20.f, 23.f, 30.f } };
 	const XMVECTORF32           room_hitbox_color{ 1.f,1.f,0.f,0.2f };
 };
 
