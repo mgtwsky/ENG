@@ -85,6 +85,8 @@ void Game::Update(DX::StepTimer const& timer) {
 	if (kb.Right || kb.D)		move.x -= 1.f;
 	if (kb.Up || kb.W)	        move.z += 1.f;
 	if (kb.Down || kb.S)		move.z -= 1.f;
+	if (kb.LeftShift)           move.y += 1.f;
+	if (kb.LeftControl)         move.y -= 1.f;
 	if (kb.OemOpenBrackets)     m_gamestate.DecreaseBulletSize(0.1f);
 	if (kb.OemCloseBrackets)    m_gamestate.IncreaseBulletSize(0.1f);
 	if (kb.OemSemicolon)        m_gamestate.DecreaseBulletSpeed(0.5f);
@@ -95,7 +97,7 @@ void Game::Update(DX::StepTimer const& timer) {
 	if (kb.I) m_gamestate.creation_bullet_type = BallisticsType::NORMAL;
 	if (kb.O) m_gamestate.creation_bullet_type = BallisticsType::ADVANCED;
 	if (kb.P) m_gamestate.creation_bullet_type = BallisticsType::REALISTIC;
-	Quaternion q = Quaternion::CreateFromYawPitchRoll(m_camera.yaw, m_camera.pitch, 0.f);
+	Quaternion q = Quaternion::CreateFromYawPitchRoll(m_camera.yaw, -m_camera.pitch, 0.f);
 	move = Vector3::Transform(move, q) * MOVEMENT_GAIN * elapsedTime;
 	m_gamestate.player.position += move;
 	m_gamestate.player.hitbox.SetPosition(m_gamestate.player.position);
