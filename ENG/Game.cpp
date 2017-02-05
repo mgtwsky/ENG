@@ -39,8 +39,7 @@ void Game::Initialize(IUnknown* window, int width, int height, DXGI_MODE_ROTATIO
 
 	// TODO: Change the timer settings if you want something other than the default variable timestep mode.
 	// e.g. for 60 FPS fixed timestep update logic, call:
-	m_timer.SetFixedTimeStep(true);
-	m_timer.SetTargetElapsedSeconds(1.0 / 60);
+	m_timer.SetFixedTimeStep(false);
 	m_keyboard = std::make_unique<Keyboard>();												// Initialization of input.
 	m_keyboard->SetWindow(reinterpret_cast<ABI::Windows::UI::Core::ICoreWindow*>(window));
 	m_mouse = std::make_unique<Mouse>();
@@ -141,6 +140,7 @@ void Game::Render() {
 
 	m_gamestate.DrawRoomHitboxes(view, m_camera.proj, m_hitbox_shape.get());
 	m_gamestate.DrawBots(view, m_camera.proj, m_hitbox_shape.get());
+	m_gamestate.DrawInfo(m_spriteBatch.get(), m_font.get(), m_timer.GetElapsedSeconds());
 
 	Present();
 }
@@ -334,6 +334,8 @@ void Game::CreateDevice() {
 
 	// TODO: Initialize device dependent objects here (independent of window size).
 	Wall::CreateWalls(m_d3dContext.Get(), m_gamestate.walls);
+	m_spriteBatch = std::make_unique<SpriteBatch>(m_d3dContext.Get());
+	m_font = std::make_unique<SpriteFont>(m_d3dDevice.Get(), L"font.spritefont");
 	m_hitbox_shape = GeometricPrimitive::CreateBox(m_d3dContext.Get(), { 1.f, 1.f, 1.f });
 	m_bullet_shape = GeometricPrimitive::CreateSphere(m_d3dContext.Get(), 1.f);
 }
@@ -437,6 +439,8 @@ void Game::OnDeviceLost() {
 	m_swapChain.Reset();
 	m_d3dContext.Reset();
 	m_d3dDevice.Reset();
+	m_font.reset();
+	m_spriteBatch.reset();
 
 	CreateDevice();
 

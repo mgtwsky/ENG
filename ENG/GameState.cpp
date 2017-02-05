@@ -191,6 +191,17 @@ void GameState::ClearBots() {
 	bots.clear();
 }
 
+void GameState::DrawInfo(SpriteBatch* spriteBatch, SpriteFont* font, float const & elapsed) {
+	spriteBatch->Begin();
+
+	std::wstring output = L"FPS: " + std::to_wstring((int)(1 / elapsed)) + L"\nPoruszanie sie\nPrzod: W\nTyl: S\nLewo: A\nPrawo: D\nGora: Shift\nDol: Ctrl\nBoty\nDodaj bota: K\nUsun bota: L\nPociski\nPrzyspiesz: '\nZwolnij: ;\nPowieksz: [\nPomniejsz: ]\n";
+
+	font->DrawString(spriteBatch, output.c_str(),
+	{ 10.f,10.f }, Colors::White, 0.f, { 0.f });
+
+	spriteBatch->End();
+}
+
 void GameState::IncreaseBulletSize(float const & sizeToIncrease) {
 	bullet_size += sizeToIncrease;
 	SetBulletsSize(bullet_size);
@@ -207,9 +218,9 @@ void GameState::IncreaseBulletSpeed(float const & speedToIncrease) {
 }
 
 void GameState::DecreaseBulletSpeed(float const & speedToDecrease) {
-	if (constants.bullet_normal_speed > 10.f) {
-		constants.bullet_normal_speed -= speedToDecrease;
-	}
+	if (constants.bullet_normal_speed < 15.f)
+		return;
+	constants.bullet_normal_speed -= speedToDecrease;
 }
 
 void GameState::AddBot() {

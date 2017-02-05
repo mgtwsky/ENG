@@ -60,5 +60,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ENG_TemporaryKey.pfx" />
+    <None Include="font.spritefont" />
   </ItemGroup>
 </Project>

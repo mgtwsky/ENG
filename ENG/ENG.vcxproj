@@ -236,6 +236,9 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="ENG_TemporaryKey.pfx" />
+    <None Include="font.spritefont">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Logo.scale-200.png" />

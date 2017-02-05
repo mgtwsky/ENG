@@ -21,6 +21,7 @@ public:
 	void CreateMultiplePPLBots();
 	void CreateHeavyLoadBots();
 	void ClearBots();
+	void DrawInfo(SpriteBatch* spriteBatch, SpriteFont* font, float const & elapsed);
 	void IncreaseBulletSize(float const & sizeToIncrease);
 	void DecreaseBulletSize(float const & sizeToIncrease);
 	void IncreaseBulletSpeed(float const & speedToIncrease);

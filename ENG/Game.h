@@ -59,8 +59,10 @@ private:
 	Microsoft::WRL::ComPtr<IDXGISwapChain3>				m_swapChain;
 	Microsoft::WRL::ComPtr<ID3D11RenderTargetView>		m_renderTargetView;
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilView>		m_depthStencilView;
+	std::unique_ptr<DirectX::SpriteBatch>               m_spriteBatch;
 	std::unique_ptr<DirectX::Keyboard>					m_keyboard;
 	std::unique_ptr<DirectX::Mouse>						m_mouse;
+	std::unique_ptr<DirectX::SpriteFont>                m_font;
 	GameState											m_gamestate;
 	std::unique_ptr<DirectX::GeometricPrimitive>		m_hitbox_shape;
 	std::unique_ptr<DirectX::GeometricPrimitive>		m_bullet_shape;
