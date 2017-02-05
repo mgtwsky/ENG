@@ -23,6 +23,10 @@ public:
 	void ClearBots();
 	void IncreaseBulletSize(float const & sizeToIncrease);
 	void DecreaseBulletSize(float const & sizeToIncrease);
+	void IncreaseBulletSpeed(float const & speedToIncrease);
+	void DecreaseBulletSpeed(float const & speedToDecrease);
+	void AddBot();
+	void RemoveBot();
 	bool IsPlayerInHeavyLoadRoom() const;
 	bool IsPlayerInMultiplePPLRoom() const;
 	bool IntersectsWithRoom(Hitbox const & room, Hitbox const & collider);

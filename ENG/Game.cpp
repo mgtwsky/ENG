@@ -59,8 +59,6 @@ void Game::Tick() {
 // Updates the world.
 void Game::Update(DX::StepTimer const& timer) {
 	float elapsedTime = float(timer.GetElapsedSeconds());
-
-	// TODO: Add your game logic here.
 	auto kb = m_keyboard->GetState();
 	if (kb.Escape)
 		Windows::ApplicationModel::Core::CoreApplication::Exit();
@@ -70,12 +68,9 @@ void Game::Update(DX::StepTimer const& timer) {
 			* ROTATION_GAIN;
 		m_camera.pitch -= delta.y;
 		m_camera.yaw -= delta.x;
-		// limit pitch to straight up or straight down
-		// with a little fudge-factor to avoid gimbal lock
 		float limit = XM_PI / 2.0f - 0.01f;
 		m_camera.pitch = std::max(-limit, m_camera.pitch);
 		m_camera.pitch = std::min(+limit, m_camera.pitch);
-		// keep longitude in sane range by wrapping
 		if (m_camera.yaw > XM_PI) { m_camera.yaw -= XM_PI * 2.0f; } else if (m_camera.yaw < -XM_PI) { m_camera.yaw += XM_PI * 2.0f; }
 	}
 	m_gamestate.player.look_direction = m_camera.CreateLookDirectionVec();
@@ -92,6 +87,10 @@ void Game::Update(DX::StepTimer const& timer) {
 	if (kb.Down || kb.S)		move.z -= 1.f;
 	if (kb.OemOpenBrackets)     m_gamestate.DecreaseBulletSize(0.1f);
 	if (kb.OemCloseBrackets)    m_gamestate.IncreaseBulletSize(0.1f);
+	if (kb.OemSemicolon)        m_gamestate.DecreaseBulletSpeed(0.5f);
+	if (kb.OemQuotes)           m_gamestate.IncreaseBulletSpeed(0.5f);
+	if (kb.K)                   m_gamestate.AddBot();
+	if (kb.L)                   m_gamestate.RemoveBot();
 	if (kb.U) m_gamestate.creation_bullet_type = BallisticsType::SIMPLE;
 	if (kb.I) m_gamestate.creation_bullet_type = BallisticsType::NORMAL;
 	if (kb.O) m_gamestate.creation_bullet_type = BallisticsType::ADVANCED;

@@ -162,7 +162,7 @@ void GameState::CreateWinds() {
 }
 
 void GameState::CreateMultiplePPLBots() {
-	for (int i = 0; i < 48; i++) {
+	for (int i = 0; i < constants.bots_count; i++) {
 		Vector3 position{ (-rand() % 36 - 22.f),2.f,(rand() % 56 - 38.f) };
 		Vector3 size{ 2.f,4.f,2.f };
 		Vector3 direction{ (float)rand(),0.f,(float)rand() };
@@ -200,6 +200,37 @@ void GameState::DecreaseBulletSize(float const & sizeToDecrease) {
 	bullet_size -= sizeToDecrease;
 	if (bullet_size < 0.1f) bullet_size = 0.1f;
 	SetBulletsSize(bullet_size);
+}
+
+void GameState::IncreaseBulletSpeed(float const & speedToIncrease) {
+	constants.bullet_normal_speed += speedToIncrease;
+}
+
+void GameState::DecreaseBulletSpeed(float const & speedToDecrease) {
+	if (constants.bullet_normal_speed > 10.f) {
+		constants.bullet_normal_speed -= speedToDecrease;
+	}
+}
+
+void GameState::AddBot() {
+	if (IsPlayerInMultiplePPLRoom()) {
+		Vector3 position{ (-rand() % 36 - 22.f),2.f,(rand() % 56 - 38.f) };
+		Vector3 size{ 2.f,4.f,2.f };
+		Vector3 direction{ (float)rand(),0.f,(float)rand() };
+		direction.Normalize();
+
+		Bot bot{ position,size,direction,false };
+
+		bots.push_back(bot);
+		constants.bots_count += 1;
+	}
+}
+
+void GameState::RemoveBot() {
+	if (IsPlayerInMultiplePPLRoom() && !bots.empty()) {
+		bots.pop_back();
+		constants.bots_count -= 1;
+	}
 }
 
 bool GameState::IsPlayerInHeavyLoadRoom() const {
