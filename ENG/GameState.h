@@ -6,6 +6,7 @@
 #include "GameConstants.h"
 #include "Wind.h"
 #include "Bot.h"
+#include "StepTimer.h"
 
 class GameState {
 public:
@@ -21,7 +22,7 @@ public:
 	void CreateMultiplePPLBots();
 	void CreateHeavyLoadBots();
 	void ClearBots();
-	void DrawInfo(SpriteBatch* spriteBatch, SpriteFont* font, float const & elapsed);
+	void DrawInfo(SpriteBatch* spriteBatch, SpriteFont* font, DX::StepTimer const & timer);
 	void IncreaseBulletSize(float const & sizeToIncrease);
 	void DecreaseBulletSize(float const & sizeToIncrease);
 	void IncreaseBulletSpeed(float const & speedToIncrease);

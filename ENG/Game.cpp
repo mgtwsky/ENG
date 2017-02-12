@@ -140,7 +140,7 @@ void Game::Render() {
 
 	m_gamestate.DrawRoomHitboxes(view, m_camera.proj, m_hitbox_shape.get());
 	m_gamestate.DrawBots(view, m_camera.proj, m_hitbox_shape.get());
-	m_gamestate.DrawInfo(m_spriteBatch.get(), m_font.get(), m_timer.GetElapsedSeconds());
+	m_gamestate.DrawInfo(m_spriteBatch.get(), m_font.get(), m_timer);
 
 	Present();
 }
