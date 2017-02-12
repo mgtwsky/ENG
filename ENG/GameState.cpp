@@ -194,7 +194,7 @@ void GameState::ClearBots() {
 void GameState::DrawInfo(SpriteBatch* spriteBatch, SpriteFont* font, float const & elapsed) {
 	spriteBatch->Begin();
 
-	std::wstring output = L"FPS: " + std::to_wstring((int)(1 / elapsed)) + L"\nPoruszanie sie\nPrzod: W\nTyl: S\nLewo: A\nPrawo: D\nGora: Shift\nDol: Ctrl\nBoty\nDodaj bota: K\nUsun bota: L\nPociski\nPrzyspiesz: '\nZwolnij: ;\nPowieksz: [\nPomniejsz: ]\n";
+	std::wstring output = L"Czas trwania klatki: " + std::to_wstring(elapsed) + L"\nPoruszanie sie\nPrzod: W\nTyl: S\nLewo: A\nPrawo: D\nGora: Shift\nDol: Ctrl\nBoty\nDodaj bota: K\nUsun bota: L\nPociski\nPrzyspiesz: '\nZwolnij: ;\nPowieksz: [\nPomniejsz: ]\n";
 
 	font->DrawString(spriteBatch, output.c_str(),
 	{ 10.f,10.f }, Colors::White, 0.f, { 0.f });
