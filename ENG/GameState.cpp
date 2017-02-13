@@ -62,10 +62,16 @@ void GameState::UpdateBulletNormal(Bullet& bullet, float const & elapsed) {
 	move *= constants.bullet_normal_speed;
 	move *= elapsed;
 	bullet.direction += constants.gravity_vec * elapsed;
-	bullet.SetPosition(bullet.GetPosition() + move);
-	const Vector3 after_move = bullet.GetPosition();
-	if (CheckBulletCollisionGaps(bullet, before_move, after_move)) bullet.is_alive = false;
-	if (CheckWallCollision(bullet.hitbox)) bullet.is_alive = false;
+	const Vector3 after_move = bullet.GetPosition() + move;
+	if (CheckWallCollision(bullet.hitbox)) {
+		bullet.is_alive = false;
+		return;
+	}
+	if (CheckBulletCollisionGaps(bullet, before_move, after_move)) {
+		bullet.is_alive = false;
+		return;
+	}
+	bullet.SetPosition(after_move);
 	bullet.Update(elapsed);
 }
 
@@ -80,10 +86,16 @@ void GameState::UpdateBulletSimple(Bullet & bullet, const float & elapsed) {
 	Vector3 move = bullet.direction;
 	move *= constants.bullet_normal_speed;
 	move *= elapsed;
-	bullet.SetPosition(bullet.GetPosition() + move);
-	const Vector3 after_move = bullet.GetPosition();
-	if (CheckBulletCollisionGaps(bullet, before_move, after_move)) bullet.is_alive = false;
-	if (CheckWallCollision(bullet.hitbox)) bullet.is_alive = false;
+	const Vector3 after_move = bullet.GetPosition() + move;
+	if (CheckBulletCollisionGaps(bullet, before_move, after_move)) {
+		bullet.is_alive = false;
+		return;
+	}
+	if (CheckWallCollision(bullet.hitbox)) {
+		bullet.is_alive = false;
+		return;
+	}
+	bullet.SetPosition(after_move);
 	bullet.Update(elapsed);
 }
 
@@ -93,11 +105,17 @@ void GameState::UpdateBulletAdvanced(Bullet & bullet, const float & elapsed) {
 	move *= constants.bullet_normal_speed;
 	move *= elapsed;
 	bullet.direction += constants.gravity_vec * elapsed;
-	bullet.SetPosition(bullet.GetPosition() + move);
-	const Vector3 after_move = bullet.GetPosition();
+	const Vector3 after_move = bullet.GetPosition() + move;
 	CheckWindAffection(bullet, elapsed);
-	if (CheckBulletCollisionGaps(bullet, before_move, after_move)) bullet.is_alive = false;
-	if (CheckWallCollision(bullet.hitbox)) bullet.is_alive = false;
+	if (CheckBulletCollisionGaps(bullet, before_move, after_move)) {
+		bullet.is_alive = false;
+		return;
+	}
+	if (CheckWallCollision(bullet.hitbox)) {
+		bullet.is_alive = false;
+		return;
+	}
+	bullet.SetPosition(bullet.GetPosition() + move);
 	bullet.Update(elapsed);
 }
 
@@ -109,11 +127,17 @@ void GameState::UpdateBulletRealistic(Bullet & bullet, const float & elapsed) {
 	move.z *= 0.99f;
 	move *= elapsed;
 	bullet.direction += constants.gravity_vec * elapsed;
-	bullet.SetPosition(bullet.GetPosition() + move);
-	const Vector3 after_move = bullet.GetPosition();
+	const Vector3 after_move = bullet.GetPosition() + move;
 	CheckWindAffection(bullet, elapsed);
-	if (CheckBulletCollisionGaps(bullet, before_move, after_move)) bullet.is_alive = false;
-	if (CheckWallCollision(bullet.hitbox)) bullet.is_alive = false;
+	if (CheckBulletCollisionGaps(bullet, before_move, after_move)) {
+		bullet.is_alive = false;
+		return;
+	}
+	if (CheckWallCollision(bullet.hitbox)) {
+		bullet.is_alive = false;
+		return;
+	}
+	bullet.SetPosition(after_move);
 	bullet.Update(elapsed);
 }
 
@@ -176,7 +200,7 @@ void GameState::CreateMultiplePPLBots() {
 
 void GameState::CreateHeavyLoadBots() {
 	for (int i = 0; i < 40; i++) {
-		Vector3 position{ 60.f,4.f, (i / 40.f *56.f) - 38.f };
+		Vector3 position{ 59.f,4.f, (i / 40.f *56.f) - 38.f };
 		Vector3 size{ 1.f,1.f,1.f };
 		Vector3 direction{ -1.f,0.f,0.f };
 		direction.Normalize();
@@ -194,7 +218,7 @@ void GameState::ClearBots() {
 void GameState::DrawInfo(SpriteBatch* spriteBatch, SpriteFont* font, DX::StepTimer const & timer) {
 	spriteBatch->Begin();
 
-	std::wstring output = L"Czas trwania klatki: " + std::to_wstring(timer.GetElapsedSeconds()) + L"\nFPS: " + std::to_wstring(timer.GetFramesPerSecond()) + L"\nPoruszanie sie\nPrzod: W\nTyl: S\nLewo: A\nPrawo: D\nGora: Shift\nDol: Ctrl\nBoty\nDodaj bota: K\nUsun bota: L\nPociski\nPrzyspiesz: '\nZwolnij: ;\nPowieksz: [\nPomniejsz: ]\n";
+	std::wstring output = L"Czas trwania klatki: " + std::to_wstring(timer.GetElapsedSeconds()) + L"\nFPS: " + std::to_wstring(timer.GetFramesPerSecond()) + L"\nIlosc pociskow: " + std::to_wstring(bullets.size()) + L"\nPoruszanie sie\nPrzod: W\nTyl: S\nLewo: A\nPrawo: D\nGora: Shift\nDol: Ctrl\nBoty\nDodaj bota: K\nUsun bota: L\nPociski\nPrzyspiesz: '\nZwolnij: ;\nPowieksz: [\nPomniejsz: ]\n";
 
 	font->DrawString(spriteBatch, output.c_str(),
 	{ 10.f,10.f }, Colors::White, 0.f, { 0.f });
@@ -274,11 +298,13 @@ void GameState::DrawBots(CXMMATRIX view, CXMMATRIX proj, GeometricPrimitive * sh
 
 void GameState::UpdateBots(float const & elapsed) {
 	for (auto & bot : bots) {
+		const Vector3 before_move = bot.position;
 		CreateBullet(bot.position, bot.look_direction, creation_bullet_type);
+		bot.Update(elapsed);
 		if (IntersectsWithRoom(multiple_ppl_room, bot.hitbox)) {
+			bot.position = before_move;
 			bot.look_direction.x = -bot.look_direction.x;
 			bot.look_direction.z = -bot.look_direction.z;
 		}
-		bot.Update(elapsed);
 	}
 }
