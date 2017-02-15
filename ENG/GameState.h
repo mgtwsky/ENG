@@ -41,7 +41,7 @@ public:
 	std::vector<Bot>            bots;
 private:
 	void UpdateBulletNormal(Bullet& bullet, const float & elapsed);
-	void CheckWindAffection(Bullet & bullet, const float & elapsed);
+	void CheckWindInfluence(Bullet & bullet, const float & elapsed);
 	void UpdateBulletSimple(Bullet& bullet, const float & elapsed);
 	void UpdateBulletAdvanced(Bullet& bullet, const float & elapsed);
 	void UpdateBulletRealistic(Bullet& bullet, const float & elapsed);

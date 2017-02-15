@@ -75,7 +75,7 @@ void GameState::UpdateBulletNormal(Bullet& bullet, float const & elapsed) {
 	bullet.Update(elapsed);
 }
 
-void GameState::CheckWindAffection(Bullet & bullet, const float & elapsed) {
+void GameState::CheckWindInfluence(Bullet & bullet, const float & elapsed) {
 	for (auto const & wind : winds) {
 		if (wind.Contains(bullet.hitbox)) wind.Affect(bullet, elapsed);
 	}
@@ -106,7 +106,7 @@ void GameState::UpdateBulletAdvanced(Bullet & bullet, const float & elapsed) {
 	move *= elapsed;
 	bullet.direction += constants.gravity_vec * elapsed;
 	const Vector3 after_move = bullet.GetPosition() + move;
-	CheckWindAffection(bullet, elapsed);
+	CheckWindInfluence(bullet, elapsed);
 	if (CheckBulletCollisionGaps(bullet, before_move, after_move)) {
 		bullet.is_alive = false;
 		return;
@@ -128,7 +128,7 @@ void GameState::UpdateBulletRealistic(Bullet & bullet, const float & elapsed) {
 	move *= elapsed;
 	bullet.direction += constants.gravity_vec * elapsed;
 	const Vector3 after_move = bullet.GetPosition() + move;
-	CheckWindAffection(bullet, elapsed);
+	CheckWindInfluence(bullet, elapsed);
 	if (CheckBulletCollisionGaps(bullet, before_move, after_move)) {
 		bullet.is_alive = false;
 		return;
