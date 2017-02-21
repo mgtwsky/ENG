@@ -238,7 +238,8 @@ void GameState::DecreaseBulletSize(float const & sizeToDecrease) {
 }
 
 void GameState::IncreaseBulletSpeed(float const & speedToIncrease) {
-	constants.bullet_normal_speed += speedToIncrease;
+	if (constants.bullet_normal_speed < 10000.f)
+		constants.bullet_normal_speed += speedToIncrease;
 }
 
 void GameState::DecreaseBulletSpeed(float const & speedToDecrease) {
