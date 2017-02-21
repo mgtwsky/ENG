@@ -32,15 +32,10 @@ void Game::Initialize(IUnknown* window, int width, int height, DXGI_MODE_ROTATIO
 	m_outputWidth = std::max(width, 1);
 	m_outputHeight = std::max(height, 1);
 	m_outputRotation = rotation;
-
 	CreateDevice();
-
 	CreateResources();
-
-	// TODO: Change the timer settings if you want something other than the default variable timestep mode.
-	// e.g. for 60 FPS fixed timestep update logic, call:
 	m_timer.SetFixedTimeStep(false);
-	m_keyboard = std::make_unique<Keyboard>();												// Initialization of input.
+	m_keyboard = std::make_unique<Keyboard>();
 	m_keyboard->SetWindow(reinterpret_cast<ABI::Windows::UI::Core::ICoreWindow*>(window));
 	m_mouse = std::make_unique<Mouse>();
 	m_mouse->SetWindow(reinterpret_cast<ABI::Windows::UI::Core::ICoreWindow*>(window));
@@ -250,8 +245,8 @@ void Game::ValidateDevice() {
 
 // Properties
 void Game::GetDefaultSize(int& width, int& height) const {
-	width = 800;
-	height = 600;
+	width = 1024;
+	height = 768;
 }
 
 // These are the resources that depend on the device.
