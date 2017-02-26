@@ -220,6 +220,10 @@ void GameState::DrawInfo(SpriteBatch* spriteBatch, SpriteFont* font, DX::StepTim
 
 	std::wstring output = L"Czas trwania klatki: " + std::to_wstring(timer.GetElapsedSeconds()) + L"\nFPS: " + std::to_wstring(timer.GetFramesPerSecond()) + L"\nIlosc pociskow: " + std::to_wstring(bullets.size()) + L"\nPoruszanie sie\nPrzod: W\nTyl: S\nLewo: A\nPrawo: D\nGora: Shift\nDol: Ctrl\nBoty\nDodaj bota: K\nUsun bota: L\nPociski\nPrzyspiesz: '\nZwolnij: ;\nPowieksz: [\nPomniejsz: ]\n";
 
+	if (logger.IsStarted()) {
+		output += L"Pomiar wlaczony";
+	}
+
 	font->DrawString(spriteBatch, output.c_str(),
 	{ 10.f,10.f }, Colors::White, 0.f, { 0.f });
 

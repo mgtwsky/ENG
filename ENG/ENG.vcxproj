@@ -199,6 +199,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Counter.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="FrameTimeLogger.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameConstants.h" />
     <ClInclude Include="GameState.h" />

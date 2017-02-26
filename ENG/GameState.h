@@ -7,6 +7,7 @@
 #include "Wind.h"
 #include "Bot.h"
 #include "StepTimer.h"
+#include "FrameTimeLogger.h"
 
 class GameState {
 public:
@@ -35,6 +36,7 @@ public:
 	GameConstants				constants;
 	Player						player;
 	BallisticsType				creation_bullet_type;
+	FrameTimeLogger             logger;
 	std::vector<Wall>			walls;
 	std::vector<Bullet>			bullets;
 	std::vector<Wind>           winds;

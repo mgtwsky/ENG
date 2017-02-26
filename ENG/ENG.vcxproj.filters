@@ -36,6 +36,7 @@
     <ClInclude Include="Hitbox.h" />
     <ClInclude Include="Wind.h" />
     <ClInclude Include="Bot.h" />
+    <ClInclude Include="FrameTimeLogger.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Logo.scale-200.png">

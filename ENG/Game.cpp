@@ -87,6 +87,8 @@ void Game::Update(DX::StepTimer const& timer) {
 	if (kb.OemQuotes)           m_gamestate.IncreaseBulletSpeed(0.5f);
 	if (kb.K)                   m_gamestate.AddBot();
 	if (kb.L)                   m_gamestate.RemoveBot();
+	if (kb.OemPeriod)           m_gamestate.logger.Start();
+	if (kb.OemQuestion)         m_gamestate.logger.Stop();
 	if (kb.U) m_gamestate.creation_bullet_type = BallisticsType::SIMPLE;
 	if (kb.I) m_gamestate.creation_bullet_type = BallisticsType::NORMAL;
 	if (kb.O) m_gamestate.creation_bullet_type = BallisticsType::ADVANCED;
@@ -108,6 +110,7 @@ void Game::Update(DX::StepTimer const& timer) {
 	if (!m_gamestate.IsPlayerInHeavyLoadRoom() && !m_gamestate.IsPlayerInMultiplePPLRoom() && !m_gamestate.bots.empty())
 		m_gamestate.ClearBots();
 	m_gamestate.UpdateBots(elapsedTime);
+	m_gamestate.logger.Update(elapsedTime);
 }
 
 // Draws the scene.
