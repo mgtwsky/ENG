@@ -52,14 +52,10 @@ private:
 
 		std::ofstream out(fileName, std::ios::out);
 		if (out) {
-			out << "Start of benchmark:\n";
-
 			for (const auto & frame_time : frame_times) {
 				if (frame_time > 0)
 					out << std::to_string(frame_time) + "\n";
 			}
-
-			out << "End of benchmark: \n";
 
 			out.close();
 		}

@@ -218,7 +218,7 @@ void GameState::ClearBots() {
 void GameState::DrawInfo(SpriteBatch* spriteBatch, SpriteFont* font, DX::StepTimer const & timer) {
 	spriteBatch->Begin();
 
-	std::wstring output = L"Czas trwania klatki: " + std::to_wstring(timer.GetElapsedSeconds()) + L"\nFPS: " + std::to_wstring(timer.GetFramesPerSecond()) + L"\nIlosc pociskow: " + std::to_wstring(bullets.size()) + L"\nPoruszanie sie\nPrzod: W\nTyl: S\nLewo: A\nPrawo: D\nGora: Shift\nDol: Ctrl\nBoty\nDodaj bota: K\nUsun bota: L\nPociski\nPrzyspiesz: '\nZwolnij: ;\nPowieksz: [\nPomniejsz: ]\n";
+	std::wstring output = L"Czas trwania klatki: " + std::to_wstring(timer.GetElapsedSeconds()) + L"\nFPS: " + std::to_wstring(timer.GetFramesPerSecond()) + L"\nIlosc pociskow: " + std::to_wstring(bullets.size()) +L"\nIlosc botow: " + std::to_wstring(bots.size()) + L"\nPoruszanie sie\nPrzod: W\nTyl: S\nLewo: A\nPrawo: D\nGora: Shift\nDol: Ctrl\nBoty\nDodaj bota: K\nUsun bota: L\nPociski\nPrzyspiesz: '\nZwolnij: ;\nPowieksz: [\nPomniejsz: ]\n";
 
 	if (logger.IsStarted()) {
 		output += L"Pomiar wlaczony";
